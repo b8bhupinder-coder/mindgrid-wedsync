@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+
+<html class="h-full dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<meta content="mobile_tab" name="shell-type"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'surface-tint': '#f0bd8b',
+            'inverse-surface': '#e6e1e5',
+            'surface-container-high': '#2b292d',
+            'surface-container-lowest': '#0f0e11',
+            'on-surface-variant': '#d4c4b7',
+            'primary-fixed': '#ffdcbd',
+            'error-container': '#4e191c',
+            'on-error-container': '#ffb4ab',
+            'secondary-fixed-dim': '#ffb59a',
+            'tertiary-fixed': '#ffdad8',
+            'surface-container-low': '#1c1a20',
+            'tertiary-container': '#f6908f',
+            'surface-container-highest': '#363437',
+            'surface-dim': '#141316',
+            'secondary-fixed': '#ffdbce',
+            'inverse-on-surface': '#313033',
+            'primary': '#c96b6b',
+            'on-error': '#690005',
+            'on-secondary-container': '#f5a587',
+            'surface': '#121114',
+            'on-secondary-fixed-variant': '#6f3720',
+            'inverse-primary': '#7d562d',
+            'on-primary-fixed': '#2c1600',
+            'on-tertiary-fixed-variant': '#7a2d30',
+            'tertiary-fixed-dim': '#ffb3b1',
+            'on-tertiary-container': '#72272a',
+            'outline-variant': '#3e3a42',
+            'surface-container': '#201e25',
+            'background': '#121114',
+            'on-secondary': '#53210c',
+            'on-tertiary': '#5c171b',
+            'on-primary': '#ffffff',
+            'error': '#ffb4ab',
+            'surface-variant': '#26242b',
+            'on-primary-container': '#ffdad6',
+            'on-secondary-fixed': '#380d00',
+            'on-background': '#e6e1e5',
+            'surface-bright': '#3a383c',
+            'secondary-container': '#382822',
+            'on-tertiary-fixed': '#3f0209',
+            'on-surface': '#f3f0f4',
+            'secondary': '#d4a373',
+            'primary-container': '#873333',
+            'primary-fixed-dim': '#f0bd8b',
+            'outline': '#6b6470',
+            'on-primary-fixed-variant': '#623f18',
+            'tertiary': '#d4a373'
+          },
+          borderRadius: {
+            'DEFAULT': '0.25rem',
+            'lg': '0.5rem',
+            'xl': '0.75rem',
+            'full': '9999px'
+          },
+          spacing: {
+            'margin': '1.25rem',
+            'margin-sm': '1rem',
+            'space-lg': '1.5rem',
+            'space-md': '1rem',
+            'gutter-sm': '0.75rem',
+            'space-xl': '2rem',
+            'space-xs': '0.25rem',
+            'space-sm': '0.5rem',
+            'gutter': '1rem'
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            'body-lg': ['Inter', 'sans-serif'],
+            'body-md': ['Inter', 'sans-serif'],
+            'body-sm': ['Inter', 'sans-serif'],
+            'caption-sm': ['Inter', 'sans-serif'],
+            'label-md': ['Inter', 'sans-serif'],
+            'label-lg': ['Inter', 'sans-serif'],
+            'display-lg': ['Inter', 'sans-serif'],
+            'display-lg-mobile': ['Inter', 'sans-serif'],
+            'headline-lg': ['Inter', 'sans-serif'],
+            'headline-md': ['Inter', 'sans-serif'],
+            'title-sm': ['Inter', 'sans-serif']
+          },
+          fontSize: {
+            'caption-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.04em', fontWeight: '500' }],
+            'body-lg': ['16px', { lineHeight: '24px', fontWeight: '400' }],
+            'label-md': ['13px', { lineHeight: '18px', letterSpacing: '0.02em', fontWeight: '600' }],
+            'display-lg': ['36px', { lineHeight: '44px', letterSpacing: '-0.02em', fontWeight: '700' }],
+            'title-sm': ['16px', { lineHeight: '22px', fontWeight: '600' }],
+            'body-md': ['14px', { lineHeight: '20px', fontWeight: '400' }],
+            'display-lg-mobile': ['28px', { lineHeight: '36px', letterSpacing: '-0.015em', fontWeight: '700' }],
+            'headline-lg': ['24px', { lineHeight: '32px', letterSpacing: '-0.015em', fontWeight: '600' }],
+            'headline-md': ['20px', { lineHeight: '26px', letterSpacing: '-0.01em', fontWeight: '600' }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        min-height: 100%;
+        -webkit-tap-highlight-color: transparent;
+        font-family: 'Inter', sans-serif;
+      }
+      body {
+        overscroll-behavior-y: none;
+      }
+      .pb-safe {
+        padding-bottom: env(safe-area-inset-bottom, 20px);
+      }
+      .pt-safe {
+        padding-top: env(safe-area-inset-top, 44px);
+      }
+      main > :first-child {
+        margin-top: 0 !important;
+      }
+      main > :last-child {
+        margin-bottom: 0 !important;
+      }
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-[#121114] font-sans text-on-surface antialiased flex flex-col min-h-full">
+<!-- Sticky Header -->
+<header class="fixed top-0 inset-x-0 z-50 bg-[#121114]/90 backdrop-blur-xl border-b border-[#26242b] pt-safe">
+<!-- iOS Status Bar Simulation -->
+<div class="flex justify-between items-center px-margin-sm h-7 text-on-surface select-none">
+<span class="font-label-md text-label-md font-semibold tracking-tight text-on-surface">9:41</span>
+<div class="flex items-center gap-space-xs text-on-surface">
+<span class="material-symbols-outlined text-[16px]">signal_cellular_alt</span>
+<span class="material-symbols-outlined text-[16px]">wifi</span>
+<span class="material-symbols-outlined text-[18px]">battery_full</span>
+</div>
+</div>
+<!-- Navigation Bar -->
+<div class="h-16 px-margin flex items-center justify-between">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="h-9 w-9 rounded-full bg-[#1c1a20] border border-[#d4a373]/30 flex items-center justify-center flex-shrink-0">
+<span class="text-[#d4a373] font-semibold text-xs tracking-wider">WS</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="text-base font-bold text-on-surface truncate leading-none">Sophie &amp; Julian</span>
+<span class="font-caption-sm text-caption-sm text-[#d4a373] uppercase tracking-widest leading-normal mt-0.5">RSVP Menu</span>
+</div>
+</div>
+<div class="flex items-center gap-2 flex-shrink-0">
+<!-- Dark / Light Mode Toggle Button -->
+<button aria-label="Toggle theme mode" class="w-8 h-8 rounded-full bg-[#1c1a20] border border-outline-variant flex items-center justify-center text-[#d4a373] hover:text-white transition-colors" id="themeToggleBtn" type="button">
+<span class="material-symbols-outlined text-[18px]" id="themeToggleIcon">light_mode</span>
+</button>
+<div class="hidden xs:flex items-center gap-1 bg-[#1c1a20] border border-[#3e3a42] px-2.5 py-1 rounded-full text-[#d4a373]">
+<span class="material-symbols-outlined text-[14px] text-[#c96b6b]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-caption-sm text-caption-sm font-semibold">142 D</span>
+</div>
+<div class="p-0.5 rounded-full ring-1 ring-[#d4a373]/40">
+<img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAA8sLaZRO987xUdNNvJhoFcoYBHLtEFDl377KF5pS9M3zBhFkRNznR12674mwVp-nkVpIhQ-3AEVgiKyB1JRhzg4h2n0IzOaJrcIcnFwXBgdqLdTTyiyeQkYyg27LyvrBsxvjRlmaeJqXLI_dqLyYhttlDOrhy1YyuHPKJDPyfC9vsc3cQs9dQtAbLYeIKQ0GcHkGHGNI-Hp6Ofbr20Rnu7AyMRmil-7ZoMFasmkO8"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col relative w-full px-margin pt-24 pb-28 bg-[#121114]">
+<div class="flex flex-col w-full pb-16 space-y-6">
+<!-- Header Card & Deadline Status -->
+<div class="relative overflow-hidden rounded-xl bg-[#1c1a20] border border-[#2e2a33] p-space-md shadow-lg shadow-black/40">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#2a221b] border border-[#d4a373]/30 text-[#d4a373] font-caption-sm text-caption-sm font-semibold tracking-wider uppercase">
+<span class="material-symbols-outlined text-[13px]" style="font-variation-settings: 'FILL' 1;">timer</span>
+              14 Days Remaining
+            </span>
+<span class="font-caption-sm text-caption-sm text-[#d4a373] font-medium">Due Aug 1, 2026</span>
+</div>
+<h1 class="text-xl font-bold text-on-surface mt-1 tracking-tight">RSVP &amp; Dining Selection</h1>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+            Sophie &amp; Julian look forward to sharing an intimate evening of dining and revelry at Villa Cetinale.
+          </p>
+</div>
+<!-- Attendance Switch (Joyfully Accepts vs Regretfully Declines) -->
+<div class="mt-space-md pt-space-sm border-t border-[#26242b]">
+<label class="block font-label-md text-label-md text-on-surface mb-2 font-medium">Will you be celebrating in person?</label>
+<div class="grid grid-cols-2 p-1 rounded-full bg-[#121114] border border-[#2e2a33] gap-1" id="attendanceToggle">
+<button class="attendance-btn active flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-full bg-[#873333] text-white shadow-md font-label-md text-label-md font-medium transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+              Joyfully Accepts
+            </button>
+<button class="attendance-btn flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-full text-on-surface-variant font-label-md text-label-md font-medium transition-all hover:text-white" type="button">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+              Regretfully Declines
+            </button>
+</div>
+</div>
+</div>
+<!-- Guest Selector Navigation -->
+<div class="space-y-2">
+<div class="flex items-center justify-between px-0.5">
+<span class="font-label-md text-label-md text-on-surface uppercase tracking-wider font-semibold">Party Guests (2)</span>
+<span class="font-caption-sm text-caption-sm text-[#d4a373] flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">restaurant_menu</span> Courses Curated
+          </span>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 flex items-center gap-space-sm p-3 rounded-xl bg-[#873333] text-white shadow-md text-left transition-all border border-[#c96b6b]/30" type="button">
+<div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-label-md text-label-md font-semibold text-white flex-shrink-0">
+              JV
+            </div>
+<div class="min-w-0">
+<p class="font-title-sm text-title-sm font-semibold truncate leading-tight">Julianna Vance</p>
+<p class="font-caption-sm text-caption-sm text-[#f6d5d5] truncate mt-0.5">Editing Menu • You</p>
+</div>
+</button>
+<button class="flex-1 flex items-center gap-space-sm p-3 rounded-xl bg-[#1c1a20] border border-[#2e2a33] text-on-surface text-left transition-all hover:border-[#3e3a42]" type="button">
+<div class="w-8 h-8 rounded-full bg-[#2a221b] text-[#d4a373] border border-[#d4a373]/30 flex items-center justify-center font-label-md text-label-md font-semibold flex-shrink-0">
+              MV
+            </div>
+<div class="min-w-0">
+<p class="font-title-sm text-title-sm font-medium truncate leading-tight">Marcus Vance</p>
+<p class="font-caption-sm text-caption-sm text-[#d4a373] truncate mt-0.5">Selected Sea Bass • +1</p>
+</div>
+</button>
+</div>
+</div>
+<!-- Julianna's Course Selection Form -->
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#c96b6b]"></span>
+<h2 class="text-lg font-bold text-on-surface">Main Entrée Selection</h2>
+</div>
+<span class="font-caption-sm text-caption-sm px-2.5 py-0.5 rounded-full bg-[#201e25] border border-[#3e3a42] text-on-surface-variant font-medium">Course 2 of 3</span>
+</div>
+<p class="text-sm text-on-surface-variant">
+          Carefully selected by Sophie and Julian in collaboration with Tuscan Executive Chef Matteo Rossi.
+        </p>
+<!-- Entree Radio Cards -->
+<div class="space-y-3" id="entreeSelection">
+<!-- Option A: Beef Tenderloin (Selected) -->
+<label class="entree-card block cursor-pointer rounded-xl bg-[#1c1a20] border-2 border-[#c96b6b] p-space-md shadow-md transition-all relative overflow-hidden" data-selected="true">
+<div class="flex gap-space-md items-start">
+<img class="w-20 h-20 rounded-lg object-cover flex-shrink-0 shadow-sm ring-1 ring-white/10" data-alt="Gourmet Tuscan herb crusted beef tenderloin" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBK8Fuo4dcNjsj70YtJIkqfWV7ZamFBQkWOkXNUqzPnEQrRJRCcdAcoAj3fqdwIIcgTB9iiBokksrkXLSMOal2FYjVa0VN1U1LRFy5cLQFYoPyfgr0s5COIj6GRWP5sPFthW3eLNlw0lZsWkRcaRncX7_u7r7G7gfx1RCuN1OAkc9uJjiY8iEnCZ2vnlAHCDG9VYHGDi5v9oXFz3nVwQSrtVW5Fk-w4HdjafWqytjF-"/>
+<div class="flex-1 min-w-0 pr-6">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-caption-sm text-caption-sm font-semibold uppercase tracking-wider text-[#d4a373]">Chef's Signature</span>
+</div>
+<h3 class="text-base font-semibold text-on-surface mt-0.5 leading-snug">Tuscan Herb Roasted Beef Tenderloin</h3>
+<p class="text-xs text-on-surface-variant mt-1 leading-relaxed">
+                  Infused with fresh rosemary jus, served over velvety truffle potato mousseline and heirloom glazed carrots.
+                </p>
+</div>
+</div>
+<div class="absolute top-4 right-4">
+<span class="card-radio-icon material-symbols-outlined text-[#c96b6b] text-[24px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<input checked="" class="sr-only" name="entree_choice" type="radio" value="beef"/>
+</label>
+<!-- Option B: Mediterranean Sea Bass -->
+<label class="entree-card block cursor-pointer rounded-xl bg-[#1c1a20] border border-[#2e2a33] p-space-md shadow-md transition-all relative overflow-hidden hover:border-[#3e3a42]" data-selected="false">
+<div class="flex gap-space-md items-start">
+<img class="w-20 h-20 rounded-lg object-cover flex-shrink-0 shadow-sm ring-1 ring-white/10" data-alt="Pan-seared Mediterranean sea bass fillet" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJlR-S5fvcedO1zPjwG_fz81b5RKj8rSrKqGIrsBealWf_kqTBqT5FSYGJ2PmFrMLMqdD_bynj9DS-oJGDe69cp4cELR-p2Pwl2KSm176WxfpWpLjFBumdRdyerFVGe71hIJBLS3u5PpA0a-bxj4AeOewbqrZ88PmQ7z8fiKXSESO2C0oHv0HEc0bXb2S2laDtVpi52SIWLFnJY_bvEcdyd4tRkwhpTDos2-fLQV9Q"/>
+<div class="flex-1 min-w-0 pr-6">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-caption-sm text-caption-sm font-semibold uppercase tracking-wider text-[#d4a373]">Fresh Catch</span>
+</div>
+<h3 class="text-base font-semibold text-on-surface mt-0.5 leading-snug">Pan-Seared Mediterranean Sea Bass</h3>
+<p class="text-xs text-on-surface-variant mt-1 leading-relaxed">
+                  Crisp skin with sun-drenched citrus caper butter, charred baby asparagus, and Meyer lemon emulsion.
+                </p>
+</div>
+</div>
+<div class="absolute top-4 right-4">
+<span class="card-radio-icon material-symbols-outlined text-outline text-[24px]">radio_button_unchecked</span>
+</div>
+<input class="sr-only" name="entree_choice" type="radio" value="seabass"/>
+</label>
+<!-- Option C: Handmade Agnolotti -->
+<label class="entree-card block cursor-pointer rounded-xl bg-[#1c1a20] border border-[#2e2a33] p-space-md shadow-md transition-all relative overflow-hidden hover:border-[#3e3a42]" data-selected="false">
+<div class="flex gap-space-md items-start">
+<img class="w-20 h-20 rounded-lg object-cover flex-shrink-0 shadow-sm ring-1 ring-white/10" data-alt="Handcrafted delicate ricotta and wild forest mushroom agnolotti" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTOVA3oA2uUeT-tl-85LIOOE-59dme0Z45zZ7ErlaeyYgsu5mx4Pzvf2DaBgQfjBxUnQsxLQ9qKAuQlZiayHelmCsyyBWszzR9o2YvPM_Hiu_chIYTG2eLgdmTDnCb9AzlFG6AQGOAjAGvLUNoxTWbBnoujuUufzv53ZcVb8S3aa-WshNFAVkJZ2crZAAfl6W8zHkB6-E2m70n2nrNWUo3V1gd41dwBJwelbsJYglW"/>
+<div class="flex-1 min-w-0 pr-6">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-caption-sm text-caption-sm font-semibold uppercase tracking-wider text-[#d4a373]">Vegetarian</span>
+</div>
+<h3 class="text-base font-semibold text-on-surface mt-0.5 leading-snug">Handmade Ricotta &amp; Wild Mushroom Agnolotti</h3>
+<p class="text-xs text-on-surface-variant mt-1 leading-relaxed">
+                  Pillowy handmade pasta parcels bathed in aromatic sage brown butter, toasted pinenuts, and 24-month aged pecorino.
+                </p>
+</div>
+</div>
+<div class="absolute top-4 right-4">
+<span class="card-radio-icon material-symbols-outlined text-outline text-[24px]">radio_button_unchecked</span>
+</div>
+<input class="sr-only" name="entree_choice" type="radio" value="agnolotti"/>
+</label>
+</div>
+</section>
+<!-- Dietary Requirements & Severe Allergies -->
+<section class="rounded-xl bg-[#1c1a20] border border-[#2e2a33] p-space-md space-y-4 shadow-md">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-title-sm text-title-sm font-semibold text-on-surface">Dietary &amp; Severe Allergies</h3>
+<p class="font-caption-sm text-caption-sm text-on-surface-variant">Notified immediately to banquet lead</p>
+</div>
+<span class="material-symbols-outlined text-[#d4a373] text-[20px]">medical_services</span>
+</div>
+<!-- Toggle Chip Grid -->
+<div class="flex flex-wrap gap-2">
+<button class="dietary-chip px-3 py-2 rounded-full font-label-md text-label-md bg-[#201e25] border border-[#3e3a42] text-on-surface-variant transition-all flex items-center gap-1.5" data-active="false" type="button">
+<span>Gluten-Free</span>
+</button>
+<button class="dietary-chip px-3 py-2 rounded-full font-label-md text-label-md bg-[#4e191c] border border-[#873333] text-[#ffb4ab] transition-all flex items-center gap-1.5" data-active="true" type="button">
+<span class="material-symbols-outlined text-[16px] text-[#ffb4ab]">warning</span>
+<span>Nut Allergy (Severe - EpiPen)</span>
+</button>
+<button class="dietary-chip px-3 py-2 rounded-full font-label-md text-label-md bg-[#201e25] border border-[#3e3a42] text-on-surface-variant transition-all flex items-center gap-1.5" data-active="false" type="button">
+<span>Dairy-Free</span>
+</button>
+<button class="dietary-chip px-3 py-2 rounded-full font-label-md text-label-md bg-[#201e25] border border-[#3e3a42] text-on-surface-variant transition-all flex items-center gap-1.5" data-active="false" type="button">
+<span>Shellfish</span>
+</button>
+<button class="dietary-chip px-3 py-2 rounded-full font-label-md text-label-md bg-[#201e25] border border-[#3e3a42] text-on-surface-variant transition-all flex items-center gap-1.5" data-active="false" type="button">
+<span>Vegan</span>
+</button>
+</div>
+<!-- Executive Chef Note Field -->
+<div class="pt-2">
+<label class="block font-label-md text-label-md text-on-surface mb-1.5 font-medium" for="chef-notes">Note for Executive Chef Matteo</label>
+<div class="relative rounded-lg bg-[#121114] border border-[#2e2a33] p-3 shadow-inner">
+<textarea class="w-full bg-transparent text-sm text-on-surface placeholder:text-outline focus:outline-none resize-none" id="chef-notes" placeholder="e.g., Cross-contamination precautions, pregnancy adjustments, or sauce on side..." rows="2"></textarea>
+</div>
+</div>
+</section>
+<!-- Marcus Vance Accordion Card (+1 Attendee) -->
+<section class="rounded-xl bg-[#1c1a20] border border-[#2e2a33] shadow-md overflow-hidden transition-all">
+<div class="p-space-md flex items-center justify-between cursor-pointer" id="marcusAccordionToggle">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-10 h-10 rounded-full bg-[#2a221b] border border-[#d4a373]/30 text-[#d4a373] flex items-center justify-center font-title-sm text-title-sm font-semibold flex-shrink-0">
+              MV
+            </div>
+<div class="min-w-0">
+<div class="flex items-center gap-2">
+<h3 class="font-title-sm text-title-sm font-semibold text-on-surface truncate">Marcus Vance</h3>
+<span class="font-caption-sm text-caption-sm px-2 py-0.5 rounded-full bg-[#1b2b22] border border-[#385e49] text-[#7de0a6] font-semibold">Completed</span>
+</div>
+<p class="font-caption-sm text-caption-sm text-on-surface-variant truncate">Guest • Pan-Seared Sea Bass</p>
+</div>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="font-label-md text-label-md text-[#d4a373] font-medium hidden sm:inline">Modify</span>
+<span class="material-symbols-outlined text-[20px] transition-transform duration-200" id="accordionArrow">expand_more</span>
+</div>
+</div>
+<!-- Accordion Content -->
+<div class="px-space-md pb-space-md pt-1 space-y-3" id="marcusDetails">
+<div class="p-3 rounded-lg bg-[#121114] border border-[#2e2a33] flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#d4a373] text-[20px]">set_meal</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface font-medium">Pan-Seared Mediterranean Sea Bass</p>
+<p class="font-caption-sm text-caption-sm text-on-surface-variant">Citrus caper butter with charred asparagus</p>
+</div>
+</div>
+<span class="font-caption-sm text-caption-sm font-semibold text-[#d4a373] uppercase">Confirmed</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant bg-[#201e25] border border-[#2e2a33] px-3 py-2 rounded-lg">
+<span class="material-symbols-outlined text-[18px] text-[#d4a373]">check</span>
+<span class="text-xs">Dietary Requirement: <strong class="text-on-surface font-medium">Dairy-Free (Citrus olive oil emulsion)</strong></span>
+</div>
+</div>
+</section>
+<!-- Sticky Save / Synchronize Action Bar -->
+<div class="sticky bottom-20 z-40 pt-2">
+<div class="rounded-xl p-3 bg-[#1c1a20]/95 backdrop-blur-xl border border-[#36323d] shadow-2xl flex flex-col gap-2.5">
+<div class="flex items-center justify-between px-1">
+<div class="flex items-center gap-1.5 text-[#d4a373]">
+<span class="material-symbols-outlined text-[16px]">sync_saved_locally</span>
+<span class="font-caption-sm text-caption-sm font-semibold">Local draft synced to catering desk</span>
+</div>
+<span class="font-caption-sm text-caption-sm text-on-surface-variant font-medium">Table 4</span>
+</div>
+<button class="w-full h-[52px] rounded-full bg-[#873333] hover:bg-[#9a3b3b] text-white font-title-sm text-title-sm font-semibold flex items-center justify-center gap-2 shadow-lg shadow-[#873333]/30 active:scale-[0.98] transition-transform" id="savePreferencesBtn" type="button">
+<span class="material-symbols-outlined text-[20px]">check</span>
+<span>Save Dining Preferences</span>
+</button>
+</div>
+</div>
+<!-- Micro Toast Confirmation Component -->
+<div class="fixed top-20 inset-x-margin z-50 pointer-events-none opacity-0 translate-y-[-8px] transition-all duration-300" id="toastNotification">
+<div class="bg-[#1c1a20] border border-[#d4a373]/50 text-on-surface rounded-xl p-3.5 shadow-2xl shadow-black/80 flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[22px] text-[#d4a373]">celebration</span>
+<div>
+<p class="font-label-md text-label-md font-semibold text-white">Preferences Sealed with Chef Matteo</p>
+<p class="font-caption-sm text-caption-sm text-[#d4a373]">Julianna &amp; Marcus's selections saved.</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-[18px] text-[#c96b6b]">done_all</span>
+</div>
+</div>
+</div>
+<script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Theme toggle logic (Dark / Light mode preview)
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const themeToggleIcon = document.getElementById('themeToggleIcon');
+        const htmlElement = document.documentElement;
+
+        themeToggleBtn?.addEventListener('click', () => {
+          if (htmlElement.classList.contains('dark')) {
+            htmlElement.classList.remove('dark');
+            themeToggleIcon.innerText = 'dark_mode';
+          } else {
+            htmlElement.classList.add('dark');
+            themeToggleIcon.innerText = 'light_mode';
+          }
+        });
+
+        // 1. Entree Radio Card Selection
+        const entreeCards = document.querySelectorAll('.entree-card');
+        entreeCards.forEach(card => {
+          card.addEventListener('click', () => {
+            entreeCards.forEach(c => {
+              c.classList.remove('border-2', 'border-[#c96b6b]');
+              c.classList.add('border', 'border-[#2e2a33]');
+              const icon = c.querySelector('.card-radio-icon');
+              if (icon) {
+                icon.innerText = 'radio_button_unchecked';
+                icon.classList.remove('text-[#c96b6b]');
+                icon.classList.add('text-outline');
+                icon.style.fontVariationSettings = "'FILL' 0";
+              }
+              const radio = c.querySelector('input[type="radio"]');
+              if (radio) radio.checked = false;
+            });
+
+            card.classList.remove('border', 'border-[#2e2a33]');
+            card.classList.add('border-2', 'border-[#c96b6b]');
+            const activeIcon = card.querySelector('.card-radio-icon');
+            if (activeIcon) {
+              activeIcon.innerText = 'check_circle';
+              activeIcon.classList.remove('text-outline');
+              activeIcon.classList.add('text-[#c96b6b]');
+              activeIcon.style.fontVariationSettings = "'FILL' 1";
+            }
+            const activeRadio = card.querySelector('input[type="radio"]');
+            if (activeRadio) activeRadio.checked = true;
+          });
+        });
+
+        // 2. Attendance Toggle Switches
+        const attendanceBtns = document.querySelectorAll('.attendance-btn');
+        attendanceBtns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            attendanceBtns.forEach(b => {
+              b.classList.remove('bg-[#873333]', 'text-white', 'shadow-md');
+              b.classList.add('text-on-surface-variant');
+              const i = b.querySelector('.material-symbols-outlined');
+              if (i && i.innerText === 'check_circle') i.style.fontVariationSettings = "'FILL' 0";
+            });
+            btn.classList.add('bg-[#873333]', 'text-white', 'shadow-md');
+            btn.classList.remove('text-on-surface-variant');
+            const activeIcon = btn.querySelector('.material-symbols-outlined');
+            if (activeIcon && activeIcon.innerText === 'check_circle') {
+              activeIcon.style.fontVariationSettings = "'FILL' 1";
+            }
+          });
+        });
+
+        // 3. Dietary Chips Toggle
+        const dietaryChips = document.querySelectorAll('.dietary-chip');
+        dietaryChips.forEach(chip => {
+          chip.addEventListener('click', () => {
+            const current = chip.dataset.active === 'true';
+            if (current) {
+              chip.dataset.active = 'false';
+              chip.classList.remove('bg-[#4e191c]', 'border-[#873333]', 'text-[#ffb4ab]');
+              chip.classList.add('bg-[#201e25]', 'border-[#3e3a42]', 'text-on-surface-variant');
+            } else {
+              chip.dataset.active = 'true';
+              chip.classList.add('bg-[#4e191c]', 'border-[#873333]', 'text-[#ffb4ab]');
+              chip.classList.remove('bg-[#201e25]', 'border-[#3e3a42]', 'text-on-surface-variant');
+            }
+          });
+        });
+
+        // 4. Accordion Toggle for Marcus Vance
+        const marcusToggle = document.getElementById('marcusAccordionToggle');
+        const marcusDetails = document.getElementById('marcusDetails');
+        const accordionArrow = document.getElementById('accordionArrow');
+        
+        if (marcusToggle && marcusDetails) {
+          marcusToggle.addEventListener('click', () => {
+            const isHidden = marcusDetails.classList.contains('hidden');
+            if (isHidden) {
+              marcusDetails.classList.remove('hidden');
+              accordionArrow.innerText = 'expand_more';
+            } else {
+              marcusDetails.classList.add('hidden');
+              accordionArrow.innerText = 'chevron_right';
+            }
+          });
+        }
+
+        // 5. Toast Feedback on Save
+        const saveBtn = document.getElementById('savePreferencesBtn');
+        const toast = document.getElementById('toastNotification');
+        if (saveBtn && toast) {
+          saveBtn.addEventListener('click', () => {
+            toast.classList.remove('opacity-0', 'translate-y-[-8px]');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            setTimeout(() => {
+              toast.classList.remove('opacity-100', 'translate-y-0');
+              toast.classList.add('opacity-0', 'translate-y-[-8px]');
+            }, 3200);
+          });
+        }
+      });
+    </script>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-[#121114]/95 backdrop-blur-2xl border-t border-[#26242b]" data-active-classes="text-[#c96b6b] font-semibold">
+<div class="flex items-center justify-around h-16 px-space-xs">
+<a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="timeline" href="#">
+<span class="material-symbols-outlined text-[22px]">calendar_today</span>
+<span class="font-caption-sm text-caption-sm mt-0.5">Timeline</span>
+</a>
+<a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="venue" href="#">
+<span class="material-symbols-outlined text-[22px]">location_on</span>
+<span class="font-caption-sm text-caption-sm mt-0.5">Venue</span>
+</a>
+<a aria-current="page" class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] transition-colors text-[#c96b6b] font-semibold" data-path="rsvp-menu" href="#">
+<span class="material-symbols-outlined text-[22px]">restaurant</span>
+<span class="font-caption-sm text-caption-sm mt-0.5">RSVP</span>
+</a>
+<a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="dj-vibe" href="#">
+<span class="material-symbols-outlined text-[22px]">graphic_eq</span>
+<span class="font-caption-sm text-caption-sm mt-0.5">DJ Vibe</span>
+</a>
+<a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="admin-host" href="#">
+<span class="material-symbols-outlined text-[22px]">tune</span>
+<span class="font-caption-sm text-caption-sm mt-0.5">Host</span>
+</a>
+</div>
+<div class="flex justify-center pb-1">
+<div class="w-32 h-1 bg-white/20 rounded-full"></div>
+</div>
+</nav>
+</body></html>

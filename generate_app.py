@@ -1,0 +1,2294 @@
+#!/usr/bin/env python3
+"""
+WedSync / MindGrid Application Generator
+Assembles the complete application with high fidelity, rich interactivity,
+theme toggling, Dynamic Island, and offline capability.
+"""
+
+import os
+import re
+
+WORKSPACE = "/Users/bhupindersingh/Downloads/Lets Engage"
+
+def read_file(rel):
+    with open(os.path.join(WORKSPACE, rel), "r", encoding="utf-8") as f:
+        return f.read()
+
+def extract_main_body(html):
+    m = re.search(r'<main[^>]*>(.*?)</main>', html, re.DOTALL)
+    if m:
+        return m.group(1).strip()
+    return ""
+
+def main():
+    print("Reading screen files...")
+    welcome_main = extract_main_body(read_file("welcome_event_join/code.html"))
+    timeline_main = extract_main_body(read_file("timeline_itinerary_1/code.html"))
+    venue_main = extract_main_body(read_file("venue_logistics/code.html"))
+    rsvp_main = extract_main_body(read_file("rsvp_menu_selection_1/code.html"))
+    dj_main = extract_main_body(read_file("dj_booth_vibe/code.html"))
+    admin_main = extract_main_body(read_file("organizer_admin_dashboard_1/code.html"))
+
+    # Let's inspect and prepare the unified index.html
+    html_content = f'''<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>WedSync • MindGrid | Sophie &amp; Julian's Wedding</title>
+  <meta name="description" content="WedSync - iOS Wedding Guest &amp; Event Planning App for Sophie &amp; Julian at Villa Cimbrone, Ravello."/>
+  
+  <!-- Apple Web App Metas -->
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="WedSync"/>
+  <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/aida-public/AB6AXuDcHE7hi70DcWa4ZSsJfCgDStqKIjAWPXAu0wuGA61q3QqcmUrCw3hvaj8WlnNxtzPaWlXH3hnGt-Yg9g0tBXte3IITLPdjGT8Z7oeEnd6-yeKnoZjN1QkSKfqWGvQQLBAt62X7dFKtlSah0hhNJEOv7HgYo2x4M8A1GIBhcEp0QKV5pq3c2QxJdBs-o8f-Id2m_WaVmrelsw_lIbHnfsKzp2roiPeVnWAw1S9JqRb8"/>
+
+  <!-- Google Fonts & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Inter:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {{
+      darkMode: 'class',
+      theme: {{
+        extend: {{
+          colors: {{
+            'surface': 'var(--c-surface)',
+            'surface-dim': 'var(--c-surface-dim)',
+            'surface-bright': 'var(--c-surface-bright)',
+            'surface-container-lowest': 'var(--c-surface-container-lowest)',
+            'surface-container-low': 'var(--c-surface-container-low)',
+            'surface-container': 'var(--c-surface-container)',
+            'surface-container-high': 'var(--c-surface-container-high)',
+            'surface-container-highest': 'var(--c-surface-container-highest)',
+            'on-surface': 'var(--c-on-surface)',
+            'on-surface-variant': 'var(--c-on-surface-variant)',
+            'inverse-surface': 'var(--c-inverse-surface)',
+            'inverse-on-surface': 'var(--c-inverse-on-surface)',
+            'outline': 'var(--c-outline)',
+            'outline-variant': 'var(--c-outline-variant)',
+            'surface-tint': 'var(--c-surface-tint)',
+            'primary': 'var(--c-primary)',
+            'on-primary': 'var(--c-on-primary)',
+            'primary-container': 'var(--c-primary-container)',
+            'on-primary-container': 'var(--c-on-primary-container)',
+            'inverse-primary': 'var(--c-inverse-primary)',
+            'secondary': 'var(--c-secondary)',
+            'on-secondary': 'var(--c-on-secondary)',
+            'secondary-container': 'var(--c-secondary-container)',
+            'on-secondary-container': 'var(--c-on-secondary-container)',
+            'tertiary': 'var(--c-tertiary)',
+            'on-tertiary': 'var(--c-on-tertiary)',
+            'tertiary-container': 'var(--c-tertiary-container)',
+            'on-tertiary-container': 'var(--c-on-tertiary-container)',
+            'error': 'var(--c-error)',
+            'on-error': 'var(--c-on-error)',
+            'error-container': 'var(--c-error-container)',
+            'on-error-container': 'var(--c-on-error-container)',
+            'primary-fixed': 'var(--c-primary-fixed)',
+            'primary-fixed-dim': 'var(--c-primary-fixed-dim)',
+            'on-primary-fixed': 'var(--c-on-primary-fixed)',
+            'on-primary-fixed-variant': 'var(--c-on-primary-fixed-variant)',
+            'secondary-fixed': 'var(--c-secondary-fixed)',
+            'secondary-fixed-dim': 'var(--c-secondary-fixed-dim)',
+            'on-secondary-fixed': 'var(--c-on-secondary-fixed)',
+            'on-secondary-fixed-variant': 'var(--c-on-secondary-fixed-variant)',
+            'tertiary-fixed': 'var(--c-tertiary-fixed)',
+            'tertiary-fixed-dim': 'var(--c-tertiary-fixed-dim)',
+            'on-tertiary-fixed': 'var(--c-on-tertiary-fixed)',
+            'on-tertiary-fixed-variant': 'var(--c-on-tertiary-fixed-variant)',
+            'background': 'var(--c-background)',
+            'on-background': 'var(--c-on-background)',
+            'surface-variant': 'var(--c-surface-variant)'
+          }},
+          borderRadius: {{
+            'DEFAULT': '0.25rem',
+            'lg': '0.5rem',
+            'xl': '0.75rem',
+            'full': '9999px'
+          }},
+          spacing: {{
+            'margin': '1.25rem',
+            'margin-sm': '1rem',
+            'space-lg': '1.5rem',
+            'space-md': '1rem',
+            'gutter-sm': '0.75rem',
+            'space-xl': '2rem',
+            'space-xs': '0.25rem',
+            'space-sm': '0.5rem',
+            'gutter': '1rem'
+          }},
+          fontFamily: {{
+            'caption-sm': ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+            'body-lg': ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+            'label-md': ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+            'display-lg': ['Playfair Display', 'serif'],
+            'title-sm': ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+            'body-md': ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+            'display-lg-mobile': ['Playfair Display', 'serif'],
+            'headline-lg': ['Playfair Display', 'serif'],
+            'headline-md': ['Playfair Display', 'serif'],
+            'serif': ['Playfair Display', 'serif'],
+            'sans': ['Plus Jakarta Sans', 'Inter', 'sans-serif']
+          }},
+          fontSize: {{
+            'caption-sm': ['11px', {{ lineHeight: '14px', letterSpacing: '0.04em', fontWeight: '500' }}],
+            'body-lg': ['17px', {{ lineHeight: '24px', fontWeight: '400' }}],
+            'label-md': ['13px', {{ lineHeight: '18px', letterSpacing: '0.02em', fontWeight: '600' }}],
+            'display-lg': ['40px', {{ lineHeight: '48px', letterSpacing: '-0.02em', fontWeight: '600' }}],
+            'title-sm': ['17px', {{ lineHeight: '22px', fontWeight: '600' }}],
+            'body-md': ['15px', {{ lineHeight: '20px', fontWeight: '400' }}],
+            'display-lg-mobile': ['32px', {{ lineHeight: '40px', letterSpacing: '-0.01em', fontWeight: '600' }}],
+            'headline-lg': ['28px', {{ lineHeight: '36px', letterSpacing: '-0.01em', fontWeight: '500' }}],
+            'headline-md': ['22px', {{ lineHeight: '28px', fontWeight: '500' }}]
+          }}
+        }}
+      }}
+    }};
+  </script>
+
+  <style>
+    :root {{
+      /* WedSync Editorial Romance (Light) */
+      --c-surface: #fef8f4;
+      --c-surface-dim: #dfd9d5;
+      --c-surface-bright: #fef8f4;
+      --c-surface-container-lowest: #ffffff;
+      --c-surface-container-low: #f9f2ef;
+      --c-surface-container: #f3ede9;
+      --c-surface-container-high: #ede7e3;
+      --c-surface-container-highest: #e7e1de;
+      --c-on-surface: #1d1b19;
+      --c-on-surface-variant: #564241;
+      --c-inverse-surface: #32302e;
+      --c-inverse-on-surface: #f6f0ec;
+      --c-outline: #897270;
+      --c-outline-variant: #dcc0be;
+      --c-surface-tint: #9e3f3f;
+      --c-primary: #7c2628;
+      --c-on-primary: #ffffff;
+      --c-primary-container: #9b3d3d;
+      --c-on-primary-container: #ffc7c4;
+      --c-inverse-primary: #ffb3b0;
+      --c-secondary: #775a19;
+      --c-on-secondary: #ffffff;
+      --c-secondary-container: #fed488;
+      --c-on-secondary-container: #785a1a;
+      --c-tertiary: #384836;
+      --c-on-tertiary: #ffffff;
+      --c-tertiary-container: #4f604c;
+      --c-on-tertiary-container: #c6d9c0;
+      --c-error: #ba1a1a;
+      --c-on-error: #ffffff;
+      --c-error-container: #ffdad6;
+      --c-on-error-container: #93000a;
+      --c-primary-fixed: #ffdad8;
+      --c-primary-fixed-dim: #ffb3b0;
+      --c-on-primary-fixed: #410006;
+      --c-on-primary-fixed-variant: #7f282a;
+      --c-secondary-fixed: #ffdea5;
+      --c-secondary-fixed-dim: #e9c176;
+      --c-on-secondary-fixed: #261900;
+      --c-on-secondary-fixed-variant: #5d4201;
+      --c-tertiary-fixed: #d5e8cf;
+      --c-tertiary-fixed-dim: #b9ccb3;
+      --c-on-tertiary-fixed: #101f0f;
+      --c-on-tertiary-fixed-variant: #3b4b38;
+      --c-background: #fef8f4;
+      --c-on-background: #1d1b19;
+      --c-surface-variant: #e7e1de;
+    }}
+
+    html.dark {{
+      /* Nocturne & Champagne (Dark) */
+      --c-surface: #141316;
+      --c-surface-dim: #141316;
+      --c-surface-bright: #3a383c;
+      --c-surface-container-lowest: #0e0d10;
+      --c-surface-container-low: #1c1b1e;
+      --c-surface-container: #201f22;
+      --c-surface-container-high: #24222a;
+      --c-surface-container-highest: #363437;
+      --c-on-surface: #e6e1e5;
+      --c-on-surface-variant: #d4c4b7;
+      --c-inverse-surface: #e6e1e5;
+      --c-inverse-on-surface: #313033;
+      --c-outline: #9c8e82;
+      --c-outline-variant: #50453b;
+      --c-surface-tint: #f0bd8b;
+      --c-primary: #f2be8c;
+      --c-on-primary: #482904;
+      --c-primary-container: #d4a373;
+      --c-on-primary-container: #5b3912;
+      --c-inverse-primary: #7d562d;
+      --c-secondary: #ffb59a;
+      --c-on-secondary: #53210c;
+      --c-secondary-container: #723922;
+      --c-on-secondary-container: #f5a587;
+      --c-tertiary: #ffb5b3;
+      --c-on-tertiary: #5c171b;
+      --c-tertiary-container: #f6908f;
+      --c-on-tertiary-container: #72272a;
+      --c-error: #ffb4ab;
+      --c-on-error: #690005;
+      --c-error-container: #93000a;
+      --c-on-error-container: #ffdad6;
+      --c-primary-fixed: #ffdcbd;
+      --c-primary-fixed-dim: #f0bd8b;
+      --c-on-primary-fixed: #2c1600;
+      --c-on-primary-fixed-variant: #623f18;
+      --c-secondary-fixed: #ffdbce;
+      --c-secondary-fixed-dim: #ffb59a;
+      --c-on-secondary-fixed: #380d00;
+      --c-on-secondary-fixed-variant: #6f3720;
+      --c-tertiary-fixed: #ffdad8;
+      --c-tertiary-fixed-dim: #ffb3b1;
+      --c-on-tertiary-fixed: #3f0209;
+      --c-on-tertiary-fixed-variant: #7a2d30;
+      --c-background: #141316;
+      --c-on-background: #e6e1e5;
+      --c-surface-variant: #363437;
+    }}
+
+    @layer base {{
+      * {{ -webkit-tap-highlight-color: transparent; }}
+      body {{ overscroll-behavior-y: none; }}
+      .pb-safe {{ padding-bottom: env(safe-area-inset-bottom, 24px); }}
+      .pt-safe {{ padding-top: env(safe-area-inset-top, 44px); }}
+    }}
+
+    ::-webkit-scrollbar {{ display: none; }}
+    * {{ scrollbar-width: none; }}
+
+    /* Device frame styles */
+    .device-iphone {{
+      width: 420px;
+      height: 875px;
+      max-height: calc(100vh - 80px);
+      border-radius: 54px;
+      box-shadow: 0 0 0 12px #262729, 0 0 0 14px #424346, 0 30px 90px rgba(0, 0, 0, 0.65);
+      position: relative;
+      overflow: hidden;
+    }}
+
+    .device-ipad {{
+      width: 768px;
+      height: 940px;
+      max-height: calc(100vh - 80px);
+      border-radius: 36px;
+      box-shadow: 0 0 0 14px #262729, 0 0 0 16px #424346, 0 30px 90px rgba(0, 0, 0, 0.65);
+      position: relative;
+      overflow: hidden;
+    }}
+
+    .device-full {{
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
+      box-shadow: none;
+      position: relative;
+    }}
+
+    /* Dynamic Island animation */
+    #dynamic-island {{
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }}
+
+    #dynamic-island.expanded {{
+      width: 340px !important;
+      height: 84px !important;
+      border-radius: 28px !important;
+      background: rgba(0, 0, 0, 0.94) !important;
+      padding: 12px 16px !important;
+    }}
+
+    /* Equalizer bar animation */
+    @keyframes eqBar {{
+      0%, 100% {{ height: 4px; }}
+      50% {{ height: 18px; }}
+    }}
+    .eq-bar-1 {{ animation: eqBar 0.8s ease-in-out infinite; }}
+    .eq-bar-2 {{ animation: eqBar 1.1s ease-in-out infinite 0.2s; }}
+    .eq-bar-3 {{ animation: eqBar 0.7s ease-in-out infinite 0.4s; }}
+    .eq-bar-4 {{ animation: eqBar 0.9s ease-in-out infinite 0.1s; }}
+
+    /* QR Scan laser animation */
+    @keyframes scanLaser {{
+      0% {{ top: 0%; opacity: 0.8; }}
+      50% {{ top: 96%; opacity: 1; }}
+      100% {{ top: 0%; opacity: 0.8; }}
+    }}
+    .scan-line {{
+      animation: scanLaser 2s ease-in-out infinite;
+    }}
+  </style>
+</head>
+<body class="bg-[#0b0c0e] text-slate-100 font-sans antialiased min-h-screen flex flex-col items-center justify-start selection:bg-rose-900 selection:text-white">
+
+  <!-- TOP DESKTOP CONTROLS BAR -->
+  <header class="w-full bg-[#13151a] border-b border-slate-800/80 px-4 py-2.5 z-50 flex flex-wrap items-center justify-between gap-3 shadow-md">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#7c2628] to-[#d4a373] flex items-center justify-center shadow-sm">
+        <span class="material-symbols-outlined text-white text-[19px]">favorite</span>
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="font-semibold text-white tracking-tight text-sm">WedSync</span>
+          <span class="px-1.5 py-0.5 rounded text-[10px] bg-amber-500/10 text-amber-300 border border-amber-500/20 font-medium">MindGrid iOS</span>
+        </div>
+        <p class="text-[11px] text-slate-400">Sophie &amp; Julian • Villa Cimbrone, Ravello</p>
+      </div>
+    </div>
+
+    <!-- Center Mode & Device Controls -->
+    <div class="flex items-center gap-2 bg-[#1b1e26] p-1 rounded-xl border border-slate-700/60 text-xs">
+      <!-- Device Switcher -->
+      <button onclick="setDeviceView('iphone')" id="btn-device-iphone" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-700 text-white font-medium transition-all shadow-sm">
+        <span class="material-symbols-outlined text-[16px]">phone_iphone</span>
+        <span>iPhone 16 Pro</span>
+      </button>
+      <button onclick="setDeviceView('ipad')" id="btn-device-ipad" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all">
+        <span class="material-symbols-outlined text-[16px]">tablet_mac</span>
+        <span class="hidden sm:inline">iPad</span>
+      </button>
+      <button onclick="setDeviceView('full')" id="btn-device-full" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all">
+        <span class="material-symbols-outlined text-[16px]">fullscreen</span>
+        <span class="hidden sm:inline">Full Window</span>
+      </button>
+    </div>
+
+    <!-- Right Actions & Theme Switcher -->
+    <div class="flex items-center gap-2">
+      <!-- Persona Switcher -->
+      <div class="flex items-center bg-[#1b1e26] p-1 rounded-xl border border-slate-700/60 text-xs">
+        <button onclick="setPersona('guest')" id="btn-persona-guest" class="px-2.5 py-1 rounded-lg bg-rose-950 text-rose-200 font-medium transition-all flex items-center gap-1">
+          <span class="material-symbols-outlined text-[14px]">person</span>
+          <span>Guest</span>
+        </button>
+        <button onclick="setPersona('host')" id="btn-persona-host" class="px-2.5 py-1 rounded-lg text-slate-400 hover:text-white transition-all flex items-center gap-1">
+          <span class="material-symbols-outlined text-[14px]">shield_person</span>
+          <span>Host Admin</span>
+        </button>
+      </div>
+
+      <!-- Theme Switcher -->
+      <button onclick="toggleTheme()" id="desktop-theme-btn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#1b1e26] border border-slate-700/60 text-xs text-slate-300 hover:text-white hover:border-slate-500 transition-all" title="Toggle theme">
+        <span class="material-symbols-outlined text-[16px] text-amber-400" id="desktop-theme-icon">wb_sunny</span>
+        <span id="desktop-theme-label" class="hidden md:inline">Editorial Romance</span>
+      </button>
+
+      <!-- Raw Screens Dropdown -->
+      <div class="relative group">
+        <button class="px-2.5 py-1.5 rounded-xl bg-[#1b1e26] border border-slate-700/60 text-xs text-slate-300 hover:text-white flex items-center gap-1 transition-all">
+          <span class="material-symbols-outlined text-[16px]">grid_view</span>
+          <span class="hidden lg:inline">Screens</span>
+          <span class="material-symbols-outlined text-[14px]">arrow_drop_down</span>
+        </button>
+        <div class="absolute right-0 top-full mt-1.5 w-60 bg-[#171920] border border-slate-700 rounded-xl shadow-xl p-2 hidden group-hover:block z-50 text-xs">
+          <p class="text-[10px] uppercase font-semibold text-slate-400 px-2 py-1 tracking-wider">Original Mockups</p>
+          <a href="welcome_event_join/code.html" target="_blank" class="flex items-center justify-between px-2 py-1.5 rounded hover:bg-slate-800 text-slate-200">
+            <span>1. Welcome &amp; PIN Join</span> <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+          </a>
+          <a href="timeline_itinerary_1/code.html" target="_blank" class="flex items-center justify-between px-2 py-1.5 rounded hover:bg-slate-800 text-slate-200">
+            <span>2. Timeline (Editorial Light)</span> <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+          </a>
+          <a href="timeline_itinerary_2/code.html" target="_blank" class="flex items-center justify-between px-2 py-1.5 rounded hover:bg-slate-800 text-slate-200">
+            <span>2b. Timeline (Nocturne Dark)</span> <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+          </a>
+          <a href="venue_logistics/code.html" target="_blank" class="flex items-center justify-between px-2 py-1.5 rounded hover:bg-slate-800 text-slate-200">
+            <span>3. Venue &amp; Map Logistics</span> <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+          </a>
+          <a href="rsvp_menu_selection_1/code.html" target="_blank" class="flex items-center justify-between px-2 py-1.5 rounded hover:bg-slate-800 text-slate-200">
+            <span>4. RSVP &amp; Menu Selection</span> <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+          </a>
+          <a href="dj_booth_vibe/code.html" target="_blank" class="flex items-center justify-between px-2 py-1.5 rounded hover:bg-slate-800 text-slate-200">
+            <span>5. DJ Booth (Light Mode)</span> <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+          </a>
+          <a href="dj_booth_vibe_dark_mode/code.html" target="_blank" class="flex items-center justify-between px-2 py-1.5 rounded hover:bg-slate-800 text-slate-200">
+            <span>5b. DJ Booth (Dark Mode)</span> <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+          </a>
+          <a href="organizer_admin_dashboard_1/code.html" target="_blank" class="flex items-center justify-between px-2 py-1.5 rounded hover:bg-slate-800 text-slate-200">
+            <span>6. Host Admin Dashboard</span> <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Reset Demo Button -->
+      <button onclick="resetDemoState()" class="p-1.5 rounded-xl bg-[#1b1e26] border border-slate-700/60 text-slate-400 hover:text-rose-400 transition-all" title="Reset Demo Data">
+        <span class="material-symbols-outlined text-[18px]">restart_alt</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN WORKSPACE CONTAINER -->
+  <main class="flex-1 w-full flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-hidden">
+    
+    <!-- DEVICE FRAME -->
+    <div id="device-container" class="device-iphone bg-surface transition-all duration-300 flex flex-col">
+      
+      <!-- PHONE STATUS BAR & DYNAMIC ISLAND -->
+      <div class="sticky top-0 inset-x-0 z-50 bg-surface/90 backdrop-blur-xl select-none pt-2 pb-1 px-6 flex items-center justify-between">
+        <!-- iOS Clock -->
+        <span id="ios-clock" class="text-[14px] font-semibold tracking-tight text-on-surface">9:41</span>
+
+        <!-- Dynamic Island -->
+        <div id="dynamic-island" class="relative w-[116px] h-[30px] rounded-full bg-black flex items-center justify-between px-2.5 text-white shadow-md cursor-pointer overflow-hidden" onclick="toggleDynamicIsland()">
+          <!-- Normal Pill Content -->
+          <div id="di-pill-normal" class="flex items-center justify-between w-full">
+            <span class="w-2.5 h-2.5 rounded-full bg-rose-500/80"></span>
+            <div class="flex items-center gap-0.5">
+              <span class="w-0.5 h-2 bg-amber-400/80 rounded-full eq-bar-1"></span>
+              <span class="w-0.5 h-3 bg-amber-400/80 rounded-full eq-bar-2"></span>
+              <span class="w-0.5 h-1.5 bg-amber-400/80 rounded-full eq-bar-3"></span>
+            </div>
+            <span class="w-2.5 h-2.5 rounded-full bg-[#1b1e26] border border-slate-700"></span>
+          </div>
+
+          <!-- Expanded Island Content -->
+          <div id="di-pill-expanded" class="hidden flex items-center justify-between w-full h-full">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <div class="w-9 h-9 rounded-full bg-amber-500/20 border border-amber-400/40 flex items-center justify-center flex-shrink-0">
+                <span id="di-icon" class="material-symbols-outlined text-amber-300 text-[18px]">notifications_active</span>
+              </div>
+              <div class="flex flex-col min-w-0">
+                <span id="di-title" class="text-[12px] font-semibold text-white truncate">Sophie &amp; Julian Alert</span>
+                <span id="di-desc" class="text-[10px] text-slate-300 truncate">Shuttle departing in 15 minutes</span>
+              </div>
+            </div>
+            <span class="material-symbols-outlined text-slate-400 text-[18px] flex-shrink-0">chevron_right</span>
+          </div>
+        </div>
+
+        <!-- iOS Battery, Wifi, Cell -->
+        <div class="flex items-center gap-1.5 text-on-surface">
+          <span class="material-symbols-outlined text-[15px]">signal_cellular_alt</span>
+          <span class="material-symbols-outlined text-[15px]">wifi</span>
+          <span class="material-symbols-outlined text-[17px]">battery_full</span>
+        </div>
+      </div>
+
+      <!-- PHONE APP HEADER (When Unlocked) -->
+      <div id="phone-app-header" class="hidden px-margin py-2 border-b border-outline-variant/20 flex items-center justify-between bg-surface/80 backdrop-blur-md">
+        <div class="flex items-center gap-2 min-w-0 cursor-pointer" onclick="navigateToTab('timeline')">
+          <img alt="WedSync Brand Logo" class="h-7 w-auto object-contain flex-shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcHE7hi70DcWa4ZSsJfCgDStqKIjAWPXAu0wuGA61q3QqcmUrCw3hvaj8WlnNxtzPaWlXH3hnGt-Yg9g0tBXte3IITLPdjGT8Z7oeEnd6-yeKnoZjN1QkSKfqWGvQQLBAt62X7dFKtlSah0hhNJEOv7HgYo2x4M8A1GIBhcEp0QKV5pq3c2QxJdBs-o8f-Id2m_WaVmrelsw_lIbHnfsKzp2roiPeVnWAw1S9JqRb8"/>
+          <div class="flex flex-col min-w-0">
+            <span class="font-headline-md text-headline-md text-primary font-serif leading-none truncate" id="header-couple-name">Sophie &amp; Julian</span>
+            <span class="font-caption-sm text-caption-sm text-secondary uppercase tracking-widest leading-normal" id="header-subtitle">Ravello, Italy</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <!-- Live Countdown Badge -->
+          <div class="flex items-center gap-1 bg-surface-container-high px-2 py-0.5 rounded-full text-secondary border border-outline-variant/30 text-xs font-medium">
+            <span class="material-symbols-outlined text-[13px] text-primary">favorite</span>
+            <span id="header-countdown-pill">142 D</span>
+          </div>
+          <!-- Theme Toggle inside phone -->
+          <button onclick="toggleTheme()" class="w-7 h-7 rounded-full bg-surface-container-high border border-outline-variant/40 flex items-center justify-center text-primary active:scale-95 transition-transform" title="Toggle theme">
+            <span class="material-symbols-outlined text-[16px]" id="phone-theme-icon">wb_sunny</span>
+          </button>
+          <!-- User Profile -->
+          <div class="p-0.5 rounded-full ring-1 ring-secondary/40 cursor-pointer" onclick="navigateToTab('rsvp')">
+            <img alt="Profile" class="w-7 h-7 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAA8sLaZRO987xUdNNvJhoFcoYBHLtEFDl377KF5pS9M3zBhFkRNznR12674mwVp-nkVpIhQ-3AEVgiKyB1JRhzg4h2n0IzOaJrcIcnFwXBgdqLdTTyiyeQkYyg27LyvrBsxvjRlmaeJqXLI_dqLyYhttlDOrhy1YyuHPKJDPyfC9vsc3cQs9dQtAbLYeIKQ0GcHkGHGNI-Hp6Ofbr20Rnu7AyMRmil-7ZoMFasmkO8"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCROLLABLE SCREEN CONTENT AREA -->
+      <div id="phone-scroll-body" class="flex-1 overflow-y-auto overscroll-none pb-24 relative">
+        
+        <!-- ============================================== -->
+        <!-- VIEW 1: WELCOME & EVENT JOIN / ONBOARDING     -->
+        <!-- ============================================== -->
+        <section id="view-welcome" class="app-view w-full">
+          <div class="flex flex-col w-full px-margin-sm space-y-space-lg pb-space-xl pt-2">
+            <!-- Decorative Ambient Header Badge -->
+            <div class="flex items-center justify-between pt-1">
+              <div class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-surface-container-high/80 backdrop-blur-md">
+                <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+                <span class="font-caption-sm text-caption-sm text-on-surface-variant uppercase tracking-widest">App Clip Experience</span>
+              </div>
+              <div class="flex items-center space-x-1 text-on-surface-variant">
+                <span class="material-symbols-outlined text-base">lock</span>
+                <span class="font-caption-sm text-caption-sm tracking-wide">Encrypted Guest Portal</span>
+              </div>
+            </div>
+
+            <!-- Editorial Hero Portrait Card with Floral Laurel Nuance -->
+            <div class="relative w-full rounded-2xl overflow-hidden shadow-lg bg-surface-container-lowest">
+              <div class="relative h-72 w-full overflow-hidden">
+                <img class="w-full h-full object-cover" alt="Sophie and Julian at Ravello Italy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0ThQ5hoShZSn89nogxF-8BnDL-0Wi_9MN7bJhO4hxw-w4HgTMv1iPvwD6t7hHJFTWM2UhxER2cUFbd11WiBl7e8dNjmjq633Mk02OQmZk0X6TeWXywrLBI2qbWTfYtHeedA_AnOknn2KtbKmTtUna8enfoAxeklECDXlt8VRrwGwLrHK-oxOIVuMk0oTBHAfESfLkcdLceJwGqjJlRFfLgzyZ-jLmXSuovNhItTB0"/>
+                <!-- Soft Vignette & Romantic Editorial Scrim -->
+                <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/30 to-transparent"></div>
+                <!-- Floating Monogram Seal -->
+                <div class="absolute top-4 right-4 w-12 h-12 rounded-full bg-surface/85 backdrop-blur-md flex items-center justify-center shadow-md">
+                  <span class="font-display-lg-mobile text-headline-md text-primary italic font-serif">S&amp;J</span>
+                </div>
+                <!-- Editorial Card Bottom Details -->
+                <div class="absolute bottom-4 left-4 right-4 text-on-primary">
+                  <div class="flex items-center space-x-1.5 mb-1 text-on-primary-container">
+                    <span class="material-symbols-outlined text-sm">event</span>
+                    <span class="font-caption-sm text-caption-sm uppercase tracking-widest font-semibold">September 18–20, 2026</span>
+                  </div>
+                  <h1 class="font-headline-lg text-headline-lg font-serif font-normal leading-tight drop-shadow-sm">
+                    Sophie &amp; Julian
+                  </h1>
+                  <div class="flex items-center space-x-1 text-on-primary/90 mt-0.5">
+                    <span class="material-symbols-outlined text-sm">location_on</span>
+                    <span class="font-body-md text-body-md italic font-serif">Villa Cimbrone • Ravello, Amalfi Coast</span>
+                  </div>
+                </div>
+              </div>
+              <!-- Editorial Laurel Caption Strip -->
+              <div class="px-space-md py-space-sm bg-surface-container-low border-t border-outline-variant/30 flex items-center justify-between">
+                <span class="font-caption-sm text-caption-sm uppercase tracking-widest text-secondary font-medium">Bespoke Guest Invitation Suite</span>
+                <span class="material-symbols-outlined text-secondary text-sm">verified</span>
+              </div>
+            </div>
+
+            <!-- Welcome Typography Section -->
+            <div class="space-y-1.5 text-center px-space-xs">
+              <h2 class="font-display-lg-mobile text-headline-lg font-serif text-primary">
+                Welcome to Our Wedding
+              </h2>
+              <p class="font-body-md text-body-md text-on-surface-variant max-w-xs mx-auto">
+                Please enter your private 4-digit guest PIN or scan your invitation QR code to unlock your personalized itinerary.
+              </p>
+            </div>
+
+            <!-- Quick Join Card -->
+            <div class="rounded-2xl p-space-md bg-surface-container-low border border-outline-variant/40 shadow-sm space-y-space-md">
+              <div class="flex items-center justify-between pb-1">
+                <div>
+                  <h3 class="font-title-sm text-title-sm text-on-surface font-semibold">Enter 4-Digit Event PIN</h3>
+                  <p class="font-caption-sm text-caption-sm text-on-surface-variant">Printed on your stationery invitation</p>
+                </div>
+                <button type="button" onclick="openQRScanner()" class="inline-flex items-center space-x-1 text-secondary font-label-md text-label-md hover:underline active:scale-95 transition-transform">
+                  <span class="material-symbols-outlined text-lg">qr_code_scanner</span>
+                  <span>Scan QR</span>
+                </button>
+              </div>
+
+              <!-- 4-Digit Event PIN Input Boxes -->
+              <div class="flex justify-between items-center space-x-2.5 max-w-[280px] mx-auto py-1">
+                <input id="pin-1" maxlength="1" type="text" value="2" class="w-14 h-14 text-center font-display-lg text-headline-lg rounded-xl bg-surface-container-lowest border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary text-on-surface outline-none shadow-inner" oninput="handlePinInput(this, 'pin-2')"/>
+                <input id="pin-2" maxlength="1" type="text" value="0" class="w-14 h-14 text-center font-display-lg text-headline-lg rounded-xl bg-surface-container-lowest border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary text-on-surface outline-none shadow-inner" oninput="handlePinInput(this, 'pin-3')"/>
+                <input id="pin-3" maxlength="1" type="text" value="2" class="w-14 h-14 text-center font-display-lg text-headline-lg rounded-xl bg-surface-container-lowest border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary text-on-surface outline-none shadow-inner" oninput="handlePinInput(this, 'pin-4')"/>
+                <input id="pin-4" maxlength="1" type="text" value="6" class="w-14 h-14 text-center font-display-lg text-headline-lg rounded-xl bg-surface-container-lowest border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary text-on-surface outline-none shadow-inner" oninput="handlePinComplete()"/>
+              </div>
+
+              <!-- Primary Action: Join with PIN Button -->
+              <button onclick="unlockWeddingHub()" class="w-full py-3.5 px-space-md rounded-full bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md shadow-md active:scale-[0.98] transition-all flex items-center justify-center space-x-2">
+                <span>Unlock Wedding Hub</span>
+                <span class="material-symbols-outlined text-base">arrow_forward</span>
+              </button>
+            </div>
+
+            <!-- Native Single-Tap Authentication Stack -->
+            <div class="space-y-space-sm pt-1">
+              <div class="relative flex py-1 items-center">
+                <div class="flex-grow border-t border-outline-variant/40"></div>
+                <span class="flex-shrink mx-4 font-caption-sm text-caption-sm text-outline uppercase tracking-wider">or sign in with</span>
+                <div class="flex-grow border-t border-outline-variant/40"></div>
+              </div>
+
+              <!-- Fast Demo Access -->
+              <button onclick="unlockWeddingHub()" class="w-full py-3 px-space-md rounded-full bg-surface-container-highest text-primary font-semibold text-sm hover:bg-surface-container-high transition-all flex items-center justify-center gap-2 border border-outline-variant/30">
+                <span class="material-symbols-outlined text-base text-secondary">star</span>
+                <span>One-Tap Demo Guest (Julianna &amp; Marcus)</span>
+              </button>
+
+              <button onclick="unlockWeddingHub()" class="w-full py-3 px-space-md rounded-full bg-on-surface text-surface font-label-md text-label-md hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center space-x-2 shadow-sm">
+                <span class="material-symbols-outlined text-base">apple</span>
+                <span>Sign in with Apple</span>
+              </button>
+
+              <button onclick="openPhoneModal()" class="w-full py-3 px-space-md rounded-full bg-surface-container-low border border-outline-variant/40 text-on-surface font-label-md text-label-md hover:bg-surface-container active:scale-[0.98] transition-all flex items-center justify-center space-x-2">
+                <span class="material-symbols-outlined text-base text-secondary">smartphone</span>
+                <span>Continue with Phone Number</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 2: HOME / TIMELINE ITINERARY              -->
+        <!-- ============================================== -->
+        <section id="view-timeline" class="app-view w-full hidden">
+          <div class="flex flex-col w-full space-y-space-lg px-margin pt-3">
+            
+            <!-- Weather Toast Notice -->
+            <div class="flex items-center justify-between px-space-md py-space-sm rounded-xl bg-surface-container-low border border-outline-variant/30 shadow-sm">
+              <div class="flex items-center space-x-space-sm">
+                <span class="material-symbols-outlined text-secondary text-[22px]">sunny</span>
+                <div class="flex flex-col">
+                  <span class="font-label-md text-label-md text-on-surface font-medium">Ravello, Amalfi Coast • 24°C</span>
+                  <span class="font-caption-sm text-caption-sm text-on-surface-variant">Gentle coastal breeze, clear skies</span>
+                </div>
+              </div>
+              <span class="font-caption-sm text-caption-sm text-secondary font-semibold uppercase tracking-wider">Perfect</span>
+            </div>
+
+            <!-- Countdown & Offline Status Banner -->
+            <div class="rounded-2xl p-space-md bg-surface-container-low border border-outline-variant/40 shadow-sm flex flex-col space-y-space-sm">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-1.5">
+                  <span class="material-symbols-outlined text-primary text-[18px]">hourglass_top</span>
+                  <span class="font-caption-sm text-caption-sm uppercase tracking-wider text-on-surface-variant font-semibold">Wedding Countdown</span>
+                </div>
+                <div class="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed">
+                  <span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>
+                  <span class="font-caption-sm text-caption-sm font-semibold tracking-wide">Offline Ready</span>
+                </div>
+              </div>
+              <div class="grid grid-cols-4 gap-2 text-center pt-1" id="timeline-countdown-grid">
+                <div class="bg-surface-container-lowest p-2 rounded-xl border border-outline-variant/20">
+                  <span class="font-display-lg text-headline-md font-serif text-primary block leading-tight" id="cd-days">48</span>
+                  <span class="font-caption-sm text-caption-sm text-on-surface-variant uppercase tracking-wider">Days</span>
+                </div>
+                <div class="bg-surface-container-lowest p-2 rounded-xl border border-outline-variant/20">
+                  <span class="font-display-lg text-headline-md font-serif text-primary block leading-tight" id="cd-hours">14</span>
+                  <span class="font-caption-sm text-caption-sm text-on-surface-variant uppercase tracking-wider">Hours</span>
+                </div>
+                <div class="bg-surface-container-lowest p-2 rounded-xl border border-outline-variant/20">
+                  <span class="font-display-lg text-headline-md font-serif text-primary block leading-tight" id="cd-mins">22</span>
+                  <span class="font-caption-sm text-caption-sm text-on-surface-variant uppercase tracking-wider">Mins</span>
+                </div>
+                <div class="bg-surface-container-lowest p-2 rounded-xl border border-outline-variant/20">
+                  <span class="font-display-lg text-headline-md font-serif text-primary block leading-tight" id="cd-secs">30</span>
+                  <span class="font-caption-sm text-caption-sm text-on-surface-variant uppercase tracking-wider">Secs</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hero Calendar Sync Action Card -->
+            <div class="rounded-2xl p-space-md bg-gradient-to-br from-surface-container-highest via-surface-container to-surface-container-low border border-outline-variant/40 shadow-sm flex flex-col space-y-space-sm relative overflow-hidden">
+              <div class="flex items-start justify-between">
+                <div class="space-y-0.5">
+                  <div class="inline-flex items-center space-x-1 text-secondary mb-1">
+                    <span class="material-symbols-outlined text-[16px]">calendar_add_on</span>
+                    <span class="font-caption-sm text-caption-sm uppercase tracking-wider font-semibold">1-Tap Apple Sync</span>
+                  </div>
+                  <h3 class="font-headline-md text-headline-md font-serif text-on-surface">Keep Weekend Schedule in Pocket</h3>
+                  <p class="font-body-md text-body-md text-on-surface-variant">Add all 5 weekend wedding itinerary events to Apple Calendar with alarms &amp; coordinates.</p>
+                </div>
+              </div>
+              <button id="cal-sync-btn" onclick="triggerCalSync()" class="w-full py-3 px-space-md rounded-full bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md shadow-sm active:scale-[0.98] transition-all flex items-center justify-center space-x-2">
+                <span class="material-symbols-outlined text-base">calendar_today</span>
+                <span id="cal-btn-text">Sync to Apple Calendar</span>
+              </button>
+            </div>
+
+            <!-- Multi-Day Itinerary Segment Switcher -->
+            <div class="space-y-space-md">
+              <div class="flex items-center justify-between">
+                <h3 class="font-headline-md text-headline-md font-serif text-primary">The Weekend Itinerary</h3>
+                <span class="font-caption-sm text-caption-sm text-on-surface-variant font-medium">September 18–20, 2026</span>
+              </div>
+              <!-- Segmented Tab Navigation -->
+              <div class="flex p-1 rounded-full bg-surface-container-high border border-outline-variant/30 space-x-1" id="timeline-tabs">
+                <button onclick="switchTimelineTab(0)" class="tab-pill flex-1 py-1.5 px-3 rounded-full text-center font-label-md text-label-md bg-surface-container-lowest text-primary font-semibold shadow-sm transition-all">Day 1: Arrival</button>
+                <button onclick="switchTimelineTab(1)" class="tab-pill flex-1 py-1.5 px-3 rounded-full text-center font-label-md text-label-md text-on-surface-variant transition-all hover:text-on-surface">Day 2: Wedding</button>
+                <button onclick="switchTimelineTab(2)" class="tab-pill flex-1 py-1.5 px-3 rounded-full text-center font-label-md text-label-md text-on-surface-variant transition-all hover:text-on-surface">Day 3: Brunch</button>
+              </div>
+            </div>
+
+            <!-- Timeline Stream Items -->
+            <div class="relative pl-6 space-y-space-lg pt-1" id="timeline-items-container">
+              <!-- Vertical continuous stem -->
+              <div class="absolute left-[11px] top-3 bottom-3 w-[2px] bg-secondary/30"></div>
+
+              <!-- Event 1: Arrival -->
+              <div class="timeline-event day-0 relative flex flex-col space-y-2">
+                <div class="absolute -left-[23px] top-1 w-5 h-5 rounded-full bg-surface border-2 border-secondary flex items-center justify-center">
+                  <div class="w-2 h-2 rounded-full bg-secondary"></div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="font-caption-sm text-caption-sm uppercase tracking-wider text-secondary font-semibold">Friday, Sep 18 • 14:00</span>
+                  <span class="font-caption-sm text-caption-sm px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant">Welcome</span>
+                </div>
+                <div class="p-space-md rounded-2xl bg-surface-container-low border border-outline-variant/30 space-y-2 shadow-sm">
+                  <h4 class="font-title-sm text-title-sm text-on-surface font-semibold">Guest Arrival &amp; Champagne Welcome</h4>
+                  <p class="font-body-md text-body-md text-on-surface-variant">Check-in, welcome drinks, and escort to guest accommodations overlooking the Amalfi cliffs.</p>
+                  <div class="flex items-center justify-between pt-1">
+                    <button onclick="navigateToTab('venue')" class="inline-flex items-center space-x-1 text-primary text-xs font-semibold hover:underline">
+                      <span class="material-symbols-outlined text-[15px]">location_on</span>
+                      <span>Villa Cimbrone Belvedere</span>
+                    </button>
+                    <button onclick="toggleReminder(this)" class="inline-flex items-center space-x-1 px-3 py-1 rounded-full bg-surface-container text-on-surface text-xs font-medium hover:bg-surface-container-high transition-colors">
+                      <span class="material-symbols-outlined text-[14px]">notifications_none</span>
+                      <span>Remind Me</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Event 2: Ceremony -->
+              <div class="timeline-event day-1 relative flex flex-col space-y-2">
+                <div class="absolute -left-[23px] top-1 w-5 h-5 rounded-full bg-surface border-2 border-primary flex items-center justify-center">
+                  <div class="w-2 h-2 rounded-full bg-primary animate-ping"></div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="font-caption-sm text-caption-sm uppercase tracking-wider text-primary font-bold">Saturday, Sep 19 • 15:30</span>
+                  <span class="font-caption-sm text-caption-sm px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-semibold">Main Event</span>
+                </div>
+                <div class="p-space-md rounded-2xl bg-surface-container-lowest border border-primary/30 space-y-2 shadow-md">
+                  <h4 class="font-title-sm text-title-sm text-primary font-semibold">Ceremony &amp; Exchange of Vows</h4>
+                  <p class="font-body-md text-body-md text-on-surface">The ceremony will begin promptly at 15:30 on the Infinity Terrace. Musical preludes start at 15:00.</p>
+                  <div class="flex items-center justify-between pt-1">
+                    <button onclick="navigateToTab('venue')" class="inline-flex items-center space-x-1 text-primary text-xs font-semibold hover:underline">
+                      <span class="material-symbols-outlined text-[15px]">location_on</span>
+                      <span>Infinity Terrace (Belvedere)</span>
+                    </button>
+                    <button onclick="toggleReminder(this)" class="inline-flex items-center space-x-1 px-3 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed text-xs font-medium">
+                      <span class="material-symbols-outlined text-[14px]">done</span>
+                      <span>Reminder Set</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Event 3: Cocktail Hour -->
+              <div class="timeline-event day-1 relative flex flex-col space-y-2">
+                <div class="absolute -left-[23px] top-1 w-5 h-5 rounded-full bg-surface border-2 border-secondary flex items-center justify-center">
+                  <div class="w-2 h-2 rounded-full bg-secondary"></div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="font-caption-sm text-caption-sm uppercase tracking-wider text-secondary font-semibold">Saturday, Sep 19 • 17:00</span>
+                  <span class="font-caption-sm text-caption-sm px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant">Aperitivo</span>
+                </div>
+                <div class="p-space-md rounded-2xl bg-surface-container-low border border-outline-variant/30 space-y-2 shadow-sm">
+                  <h4 class="font-title-sm text-title-sm text-on-surface font-semibold">Cocktail Hour &amp; Sunset Aperitivo</h4>
+                  <p class="font-body-md text-body-md text-on-surface-variant">Artisan charcuterie, Franciacorta, and coastal Spritz accompanied by live Mediterranean acoustic jazz.</p>
+                  <div class="flex items-center justify-between pt-1">
+                    <button onclick="navigateToTab('venue')" class="inline-flex items-center space-x-1 text-primary text-xs font-semibold hover:underline">
+                      <span class="material-symbols-outlined text-[15px]">location_on</span>
+                      <span>The Cloister &amp; Rose Gardens</span>
+                    </button>
+                    <button onclick="toggleReminder(this)" class="inline-flex items-center space-x-1 px-3 py-1 rounded-full bg-surface-container text-on-surface text-xs font-medium hover:bg-surface-container-high">
+                      <span class="material-symbols-outlined text-[14px]">notifications_none</span>
+                      <span>Remind Me</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Event 4: Banquet -->
+              <div class="timeline-event day-1 relative flex flex-col space-y-2">
+                <div class="absolute -left-[23px] top-1 w-5 h-5 rounded-full bg-surface border-2 border-secondary flex items-center justify-center">
+                  <div class="w-2 h-2 rounded-full bg-secondary"></div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="font-caption-sm text-caption-sm uppercase tracking-wider text-secondary font-semibold">Saturday, Sep 19 • 19:30</span>
+                  <span class="font-caption-sm text-caption-sm px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant">Dinner</span>
+                </div>
+                <div class="p-space-md rounded-2xl bg-surface-container-low border border-outline-variant/30 space-y-2 shadow-sm">
+                  <h4 class="font-title-sm text-title-sm text-on-surface font-semibold">Dinner Banquet &amp; Speeches</h4>
+                  <p class="font-body-md text-body-md text-on-surface-variant">Four-course candlelit dinner in the Gothic Crypt. Seating assignments in Table 4.</p>
+                  <div class="flex items-center justify-between pt-1">
+                    <button onclick="navigateToTab('rsvp')" class="inline-flex items-center space-x-1 text-primary text-xs font-semibold hover:underline">
+                      <span class="material-symbols-outlined text-[15px]">restaurant</span>
+                      <span>Your Menu Choices</span>
+                    </button>
+                    <button onclick="toggleReminder(this)" class="inline-flex items-center space-x-1 px-3 py-1 rounded-full bg-surface-container text-on-surface text-xs font-medium hover:bg-surface-container-high">
+                      <span class="material-symbols-outlined text-[14px]">notifications_none</span>
+                      <span>Remind Me</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Event 5: After Party -->
+              <div class="timeline-event day-1 relative flex flex-col space-y-2">
+                <div class="absolute -left-[23px] top-1 w-5 h-5 rounded-full bg-surface border-2 border-secondary flex items-center justify-center">
+                  <div class="w-2 h-2 rounded-full bg-secondary"></div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="font-caption-sm text-caption-sm uppercase tracking-wider text-secondary font-semibold">Saturday, Sep 19 • 23:00</span>
+                  <span class="font-caption-sm text-caption-sm px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-semibold">Dancefloor</span>
+                </div>
+                <div class="p-space-md rounded-2xl bg-surface-container-low border border-outline-variant/30 space-y-2 shadow-sm">
+                  <h4 class="font-title-sm text-title-sm text-on-surface font-semibold">After-Party &amp; DJ Set</h4>
+                  <p class="font-body-md text-body-md text-on-surface-variant">Open bar, midnight gelato, and dancefloor anthems requested by guests.</p>
+                  <div class="flex items-center justify-between pt-1">
+                    <button onclick="navigateToTab('dj')" class="inline-flex items-center space-x-1 text-primary text-xs font-semibold hover:underline">
+                      <span class="material-symbols-outlined text-[15px]">graphic_eq</span>
+                      <span>Vote on DJ Playlist</span>
+                    </button>
+                    <button onclick="toggleReminder(this)" class="inline-flex items-center space-x-1 px-3 py-1 rounded-full bg-surface-container text-on-surface text-xs font-medium hover:bg-surface-container-high">
+                      <span class="material-symbols-outlined text-[14px]">notifications_none</span>
+                      <span>Remind Me</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Event 6: Farewell Brunch -->
+              <div class="timeline-event day-2 relative flex flex-col space-y-2 hidden">
+                <div class="absolute -left-[23px] top-1 w-5 h-5 rounded-full bg-surface border-2 border-secondary flex items-center justify-center">
+                  <div class="w-2 h-2 rounded-full bg-secondary"></div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="font-caption-sm text-caption-sm uppercase tracking-wider text-secondary font-semibold">Sunday, Sep 20 • 11:00</span>
+                  <span class="font-caption-sm text-caption-sm px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant">Brunch</span>
+                </div>
+                <div class="p-space-md rounded-2xl bg-surface-container-low border border-outline-variant/30 space-y-2 shadow-sm">
+                  <h4 class="font-title-sm text-title-sm text-on-surface font-semibold">Farewell Mimosa Brunch</h4>
+                  <p class="font-body-md text-body-md text-on-surface-variant">Casual recovery brunch on the Lemon Terrace before guests begin departures.</p>
+                  <div class="flex items-center justify-between pt-1">
+                    <button onclick="navigateToTab('venue')" class="inline-flex items-center space-x-1 text-primary text-xs font-semibold hover:underline">
+                      <span class="material-symbols-outlined text-[15px]">location_on</span>
+                      <span>Villa Cimbrone Lemon Terrace</span>
+                    </button>
+                    <button onclick="toggleReminder(this)" class="inline-flex items-center space-x-1 px-3 py-1 rounded-full bg-surface-container text-on-surface text-xs font-medium hover:bg-surface-container-high">
+                      <span class="material-symbols-outlined text-[14px]">notifications_none</span>
+                      <span>Remind Me</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 3: EVENT DETAIL & VENUE MAP              -->
+        <!-- ============================================== -->
+        <section id="view-venue" class="app-view w-full hidden">
+          <div class="flex flex-col w-full space-y-space-lg px-margin pt-3">
+            
+            <!-- Weather & Arrival Status Pill -->
+            <div class="flex items-center justify-between px-space-md py-space-sm rounded-xl bg-surface-container-low border border-outline-variant/30 shadow-sm">
+              <div class="flex items-center space-x-space-sm">
+                <span class="material-symbols-outlined text-secondary text-[20px]">explore</span>
+                <span class="font-label-md text-label-md text-on-surface font-medium">Villa Cimbrone • Ravello (Pedestrian Zone)</span>
+              </div>
+              <span class="font-caption-sm text-caption-sm px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-semibold">Active</span>
+            </div>
+
+            <!-- Apple MapKit Styled Map Container -->
+            <div class="relative w-full rounded-2xl overflow-hidden shadow-md bg-surface-container border border-outline-variant/30">
+              <div class="w-full h-80 bg-cover bg-center relative transition-all" id="venue-map-canvas" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBzyrdBG1vtOjVfa_viubB04ICvnrJ4X_ms7IMF35B7QJdo5vZVQCyfhfvD_7L06hSYS_1XoujIDuGz9rOrpxRNkDZq7aIDqOreDLb7Yum9oZiLShdzOb7LS4H__9trw2AISo2HFF_bjhz_3F2f_s6w4AbA2KHaK0ArBtv8gWBPVw_5vXharIW4WbfWWWCDisGLV2C0Hy43g6pnGu5wBxB0-YE5lk5pHVBEaxmC_oQh')">
+                <div class="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/50 pointer-events-none"></div>
+                
+                <!-- Floating Map Header Controls -->
+                <div class="absolute top-3 inset-x-3 flex items-center justify-between pointer-events-auto">
+                  <div class="flex items-center space-x-1.5 bg-surface-container-lowest/90 backdrop-blur-md px-3 py-1.5 rounded-full shadow-sm">
+                    <span class="material-symbols-outlined text-primary text-[16px]">explore</span>
+                    <span class="font-label-md text-label-md text-on-surface font-medium">Villa Cimbrone &amp; Coast</span>
+                  </div>
+                  <div class="flex space-x-2">
+                    <button onclick="recenterMap()" class="w-8 h-8 rounded-full bg-surface-container-lowest/90 backdrop-blur-md flex items-center justify-center text-on-surface active:scale-95 transition-transform shadow-sm" title="Recenter">
+                      <span class="material-symbols-outlined text-[18px]">my_location</span>
+                    </button>
+                    <button onclick="toggleMapCompass()" class="w-8 h-8 rounded-full bg-surface-container-lowest/90 backdrop-blur-md flex items-center justify-center text-primary active:scale-95 transition-transform shadow-sm" title="Compass">
+                      <span class="material-symbols-outlined text-[18px]" id="map-compass-icon">navigation</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Interactive Pins Overlay -->
+                <!-- Pin 1: Villa Cimbrone -->
+                <button onclick="selectPin('cimbrone')" id="pin-cimbrone" class="absolute top-[42%] left-[48%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer focus:outline-none">
+                  <div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-lg ring-4 ring-white/80 active:scale-95 transition-transform">
+                    <span class="material-symbols-outlined text-[20px]">castle</span>
+                  </div>
+                  <div class="mt-1 px-2.5 py-0.5 rounded-full bg-primary text-on-primary text-[11px] font-semibold tracking-wide shadow-md whitespace-nowrap">
+                    Villa Cimbrone
+                  </div>
+                </button>
+
+                <!-- Pin 2: Shuttle Pickup -->
+                <button onclick="selectPin('shuttle')" id="pin-shuttle" class="absolute top-[22%] left-[28%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer focus:outline-none">
+                  <div class="w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center justify-center shadow-md ring-2 ring-white/80">
+                    <span class="material-symbols-outlined text-[16px]">directions_bus</span>
+                  </div>
+                  <div class="mt-0.5 px-2 py-0.5 rounded-full bg-surface-container-lowest/90 text-on-surface text-[10px] font-medium shadow whitespace-nowrap">
+                    Piazza Duomo Shuttle
+                  </div>
+                </button>
+
+                <!-- Pin 3: Parking -->
+                <button onclick="selectPin('parking')" id="pin-parking" class="absolute top-[28%] left-[72%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer focus:outline-none">
+                  <div class="w-8 h-8 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center shadow-md ring-2 ring-white/80">
+                    <span class="material-symbols-outlined text-[16px]">local_parking</span>
+                  </div>
+                  <div class="mt-0.5 px-2 py-0.5 rounded-full bg-surface-container-lowest/90 text-on-surface text-[10px] font-medium shadow whitespace-nowrap">
+                    Guest Parking Lot B
+                  </div>
+                </button>
+
+                <!-- Active Pin Detail Bar inside Map Card -->
+                <div class="absolute bottom-3 inset-x-3 bg-surface-container-lowest/95 backdrop-blur-md p-3 rounded-xl shadow-lg border border-outline-variant/30 flex items-center justify-between">
+                  <div class="flex items-center space-x-2.5 min-w-0">
+                    <div class="w-8 h-8 rounded-full bg-primary-fixed text-on-primary-fixed flex items-center justify-center flex-shrink-0" id="active-pin-icon-wrap">
+                      <span class="material-symbols-outlined text-[18px]" id="active-pin-icon">castle</span>
+                    </div>
+                    <div class="flex flex-col min-w-0">
+                      <span class="font-label-md text-label-md text-on-surface font-semibold truncate" id="active-pin-title">Villa Cimbrone Estate</span>
+                      <span class="font-caption-sm text-caption-sm text-on-surface-variant truncate" id="active-pin-sub">Ceremony &amp; Reception Grounds • Ravello</span>
+                    </div>
+                  </div>
+                  <a href="https://maps.apple.com/?q=Villa+Cimbrone+Ravello+Italy" target="_blank" class="px-3 py-1.5 rounded-full bg-primary text-on-primary font-label-md text-xs font-semibold flex items-center space-x-1 shadow-sm flex-shrink-0 hover:bg-primary-container">
+                    <span>Directions</span>
+                    <span class="material-symbols-outlined text-sm">open_in_new</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Primary Directions CTA Module -->
+            <div class="flex gap-2">
+              <a href="https://maps.apple.com/?q=Villa+Cimbrone+Ravello+Italy" target="_blank" class="flex-1 py-3 px-4 rounded-full bg-primary text-on-primary font-label-md text-label-md shadow-sm active:scale-[0.98] transition-all flex items-center justify-center space-x-2 hover:bg-primary-container">
+                <span class="material-symbols-outlined text-base">directions</span>
+                <span>Open in Apple Maps</span>
+              </a>
+              <button onclick="openConciergeModal()" class="py-3 px-4 rounded-full bg-surface-container-low border border-outline-variant/40 text-on-surface font-label-md text-label-md active:scale-[0.98] transition-all flex items-center justify-center space-x-1">
+                <span class="material-symbols-outlined text-secondary text-base">support_agent</span>
+                <span>Concierge</span>
+              </button>
+            </div>
+
+            <!-- Venue Logistics Card -->
+            <div class="rounded-2xl p-space-md bg-surface-container-low border border-outline-variant/30 space-y-space-md shadow-sm">
+              <div class="flex items-center space-x-2">
+                <span class="material-symbols-outlined text-primary text-[20px]">info</span>
+                <h3 class="font-title-sm text-title-sm text-on-surface font-semibold">Important Arrival Logistics</h3>
+              </div>
+              <div class="space-y-3 font-body-md text-body-md text-on-surface-variant">
+                <div class="flex items-start space-x-3 p-3 rounded-xl bg-surface-container-lowest border border-outline-variant/20">
+                  <span class="material-symbols-outlined text-secondary text-lg flex-shrink-0 mt-0.5">hiking</span>
+                  <div>
+                    <h5 class="font-semibold text-on-surface text-sm">Pedestrian Cobblestone Walk</h5>
+                    <p class="text-xs text-on-surface-variant mt-0.5">Villa Cimbrone is situated at the southern tip of Ravello. The final 800 meters from Piazza Duomo is exclusively pedestrian through scenic cobblestone pathways.</p>
+                  </div>
+                </div>
+                <div class="flex items-start space-x-3 p-3 rounded-xl bg-surface-container-lowest border border-outline-variant/20">
+                  <span class="material-symbols-outlined text-tertiary text-lg flex-shrink-0 mt-0.5">electric_rickshaw</span>
+                  <div class="flex-1">
+                    <div class="flex items-center justify-between">
+                      <h5 class="font-semibold text-on-surface text-sm">Golf Cart Mobility Assistance</h5>
+                      <button id="cart-request-btn" onclick="toggleCartRequest()" class="px-2.5 py-1 rounded-full bg-tertiary text-on-tertiary text-xs font-semibold hover:opacity-90 transition-all">Request Cart</button>
+                    </div>
+                    <p class="text-xs text-on-surface-variant mt-0.5">Complimentary electric golf carts for elderly guests or anyone requiring walking assistance from Piazza Duomo.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dress Code Guide Card -->
+            <div class="rounded-2xl p-space-md bg-surface-container-low border border-outline-variant/30 space-y-3 shadow-sm">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                  <span class="material-symbols-outlined text-secondary text-[20px]">styler</span>
+                  <h3 class="font-title-sm text-title-sm text-on-surface font-semibold">Dress Code Guide</h3>
+                </div>
+                <span class="font-caption-sm text-caption-sm px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-semibold uppercase">Black Tie Optional</span>
+              </div>
+              <p class="font-body-md text-body-md text-on-surface-variant">
+                <strong class="text-on-surface">Italian Black Tie Optional:</strong> Tuxedos or dark formal suits for gentlemen; floor-length evening gowns or elevated cocktail dresses for ladies.
+              </p>
+              <!-- Color Palette Swatches -->
+              <div class="space-y-1.5 pt-1">
+                <span class="text-xs font-semibold text-on-surface block uppercase tracking-wider">Suggested Mediterranean Palette</span>
+                <div class="flex items-center gap-2">
+                  <div class="flex-1 text-center py-2 px-1 rounded-lg bg-[#1a2b4c] text-white text-[10px] font-medium shadow-sm">Navy</div>
+                  <div class="flex-1 text-center py-2 px-1 rounded-lg bg-[#384836] text-white text-[10px] font-medium shadow-sm">Olive Sage</div>
+                  <div class="flex-1 text-center py-2 px-1 rounded-lg bg-[#7c2628] text-white text-[10px] font-medium shadow-sm">Terracotta</div>
+                  <div class="flex-1 text-center py-2 px-1 rounded-lg bg-[#c5a059] text-white text-[10px] font-medium shadow-sm">Champagne</div>
+                  <div class="flex-1 text-center py-2 px-1 rounded-lg bg-[#1d1b19] text-white text-[10px] font-medium shadow-sm">Black</div>
+                </div>
+              </div>
+              <!-- Footwear Note -->
+              <div class="p-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/20 flex items-center gap-2 text-xs text-on-surface-variant">
+                <span class="material-symbols-outlined text-primary text-base">footprint</span>
+                <span>Historic stone terrace &amp; garden lawns: complimentary heel protectors provided upon arrival.</span>
+              </div>
+            </div>
+
+            <!-- Photographic Impression Carousel Snippet -->
+            <div class="space-y-2">
+              <h4 class="font-title-sm text-title-sm text-on-surface font-semibold">The Estate Grounds</h4>
+              <div class="flex space-x-3 overflow-x-auto pb-2 -mx-margin px-margin">
+                <div class="w-60 h-36 rounded-2xl overflow-hidden flex-shrink-0 shadow-md relative">
+                  <img class="w-full h-full object-cover" alt="Infinity Terrace" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCK1zi1B99EKl0nvkequpVQ7WQW5pFaBZZamtZgC46sYmRKdjNJjqLEISMPnmrVQA9Oy7CVmWVKwlUpGo2u2NYEDzzBScp3e4uZ3PWRdyT6Jk7XRYMiJbDVP6Zv3JP6TpP0n2HsSNCfnT-AKZ5DRiwZtJLO5ZWjNrU-Fd4nFddIyw065KGWbfdzeNohHiqkBZeIAUY_qhgXWuE7LUKZo-tzAEsnCB9jJA_kCV8Qjetb"/>
+                  <span class="absolute bottom-2 left-2 px-2 py-0.5 rounded-full bg-black/60 text-white text-[10px] backdrop-blur-sm">Infinity Terrace</span>
+                </div>
+                <div class="w-60 h-36 rounded-2xl overflow-hidden flex-shrink-0 shadow-md relative">
+                  <img class="w-full h-full object-cover" alt="The Crypt" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTOVA3oA2uUeT-tl-85LIOOE-59dme0Z45zZ7ErlaeyYgsu5mx4Pzvf2DaBgQfjBxUnQsxLQ9qKAuQlZiayHelmCsyyBWszzR9o2YvPM_Hiu_chIYTG2eLgdmTDnCb9AzlFG6AQGOAjAGvLUNoxTWbBnoujuUufzv53ZcVb8S3aa-WshNFAVkJZ2crZAAfl6W8zHkB6-E2m70n2nrNWUo3V1gd41dwBJwelbsJYglW"/>
+                  <span class="absolute bottom-2 left-2 px-2 py-0.5 rounded-full bg-black/60 text-white text-[10px] backdrop-blur-sm">The Gothic Crypt</span>
+                </div>
+                <div class="w-60 h-36 rounded-2xl overflow-hidden flex-shrink-0 shadow-md relative">
+                  <img class="w-full h-full object-cover" alt="Rose Gardens" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCieXu2YOYIlg3DmQI1s6DbaeQw-XlOAAVDL2d6M4zXt-_g2CSyTUedTGNW0qlSFIIWq_YYm8JlxBmeJcyxW3fBQqF8Gxq0HAT5uRZVZireBMmiPDXXdPgryiG3jt2Olx0aL5P1_pxW4WqVdF_aEBtB5EG3ezZ9R4nJUuleNsL4nEYfnFTxJNk50HRU_vdbQn12rVuahDfQ7nZjgg1d-o_NpbXXtat1ypjAgAR46lO"/>
+                  <span class="absolute bottom-2 left-2 px-2 py-0.5 rounded-full bg-black/60 text-white text-[10px] backdrop-blur-sm">Rose Cloister</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 4: INTERACTIVE RSVP & MENU SELECTION     -->
+        <!-- ============================================== -->
+        <section id="view-rsvp" class="app-view w-full hidden">
+          <div class="flex flex-col w-full space-y-space-lg px-margin pt-3">
+            
+            <!-- Header Card & Deadline Status -->
+            <div class="rounded-2xl p-space-md bg-surface-container-low border border-outline-variant/40 shadow-sm space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="font-caption-sm text-caption-sm uppercase tracking-wider text-secondary font-semibold">Guest RSVP Form</span>
+                <span class="font-caption-sm text-caption-sm px-2.5 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-semibold">Table 4 Assigned</span>
+              </div>
+              <h2 class="font-headline-md text-headline-md font-serif text-primary">RSVP &amp; Dining Selection</h2>
+              <p class="font-body-md text-body-md text-on-surface-variant">Please confirm attendance and course preferences for Julianna Vance and your plus-one by August 1, 2026.</p>
+            </div>
+
+            <!-- Attendance Switch (Joyfully Accepts vs Regretfully Declines) -->
+            <div class="p-1 rounded-full bg-surface-container-high border border-outline-variant/30 flex space-x-1" id="attendance-toggle-wrap">
+              <button onclick="setAttendance(true)" id="btn-attend-yes" class="attendance-btn flex-1 py-2.5 px-3 rounded-full text-center font-label-md text-label-md bg-surface-container-lowest text-primary font-semibold shadow-sm transition-all flex items-center justify-center space-x-1.5">
+                <span class="material-symbols-outlined text-[18px]">check_circle</span>
+                <span>Joyfully Accepts</span>
+              </button>
+              <button onclick="setAttendance(false)" id="btn-attend-no" class="attendance-btn flex-1 py-2.5 px-3 rounded-full text-center font-label-md text-label-md text-on-surface-variant transition-all hover:text-on-surface flex items-center justify-center space-x-1.5">
+                <span class="material-symbols-outlined text-[18px]">cancel</span>
+                <span>Regretfully Declines</span>
+              </button>
+            </div>
+
+            <!-- Guest Selector Tabs -->
+            <div class="flex p-1 rounded-xl bg-surface-container border border-outline-variant/20 space-x-1">
+              <button onclick="switchRsvpGuest('julianna')" id="tab-guest-julianna" class="flex-1 py-1.5 px-3 rounded-lg bg-surface-container-lowest text-primary font-semibold text-xs shadow-sm transition-all">Julianna Vance (Primary)</button>
+              <button onclick="switchRsvpGuest('marcus')" id="tab-guest-marcus" class="flex-1 py-1.5 px-3 rounded-lg text-on-surface-variant text-xs transition-all hover:text-on-surface">Marcus Vance (+1)</button>
+            </div>
+
+            <!-- Julianna's Course Selection Form -->
+            <div id="rsvp-julianna-section" class="space-y-space-md">
+              <div class="flex items-center justify-between">
+                <h3 class="font-title-sm text-title-sm text-on-surface font-semibold">Julianna's Main Entrée</h3>
+                <span class="font-caption-sm text-caption-sm text-secondary font-semibold">Course 3 of 4</span>
+              </div>
+
+              <!-- Entree Radio Cards -->
+              <div class="space-y-space-sm" id="julianna-entrees">
+                <!-- Option A: Beef Tenderloin -->
+                <div onclick="selectEntree('julianna', 'beef')" id="julianna-entree-beef" class="entree-card p-space-md rounded-2xl bg-surface-container-low border-2 border-primary/60 cursor-pointer transition-all shadow-sm flex items-start justify-between">
+                  <div class="space-y-1 pr-3">
+                    <div class="flex items-center space-x-2">
+                      <span class="font-title-sm text-title-sm text-on-surface font-semibold">Tuscan Herb Roasted Beef Tenderloin</span>
+                    </div>
+                    <p class="font-body-md text-xs text-on-surface-variant">Barolo red wine reduction, rosemary potato puree, glazed baby heirloom carrots.</p>
+                  </div>
+                  <span class="material-symbols-outlined text-primary text-[22px] flex-shrink-0" id="icon-julianna-beef">check_circle</span>
+                </div>
+
+                <!-- Option B: Sea Bass -->
+                <div onclick="selectEntree('julianna', 'seabass')" id="julianna-entree-seabass" class="entree-card p-space-md rounded-2xl bg-surface-container-lowest border border-outline-variant/30 cursor-pointer transition-all shadow-sm flex items-start justify-between">
+                  <div class="space-y-1 pr-3">
+                    <div class="flex items-center space-x-2">
+                      <span class="font-title-sm text-title-sm text-on-surface font-semibold">Pan-Seared Mediterranean Sea Bass</span>
+                    </div>
+                    <p class="font-body-md text-xs text-on-surface-variant">Citrus caper emulsion, roasted fennel bulb, herb-crusted fingerling potatoes.</p>
+                  </div>
+                  <span class="material-symbols-outlined text-outline-variant text-[22px] flex-shrink-0" id="icon-julianna-seabass">radio_button_unchecked</span>
+                </div>
+
+                <!-- Option C: Agnolotti -->
+                <div onclick="selectEntree('julianna', 'agnolotti')" id="julianna-entree-agnolotti" class="entree-card p-space-md rounded-2xl bg-surface-container-lowest border border-outline-variant/30 cursor-pointer transition-all shadow-sm flex items-start justify-between">
+                  <div class="space-y-1 pr-3">
+                    <div class="flex items-center space-x-2">
+                      <span class="font-title-sm text-title-sm text-on-surface font-semibold">Handmade Ricotta &amp; Wild Mushroom Agnolotti</span>
+                      <span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-semibold">Vegetarian</span>
+                    </div>
+                    <p class="font-body-md text-xs text-on-surface-variant">Shaved summer black truffle, brown sage butter, 24-month aged Parmigiano Reggiano.</p>
+                  </div>
+                  <span class="material-symbols-outlined text-outline-variant text-[22px] flex-shrink-0" id="icon-julianna-agnolotti">radio_button_unchecked</span>
+                </div>
+              </div>
+
+              <!-- Dietary Requirements & Severe Allergies -->
+              <div class="rounded-2xl p-space-md bg-surface-container-low border border-outline-variant/30 space-y-space-sm shadow-sm">
+                <div class="flex items-center justify-between">
+                  <h4 class="font-title-sm text-title-sm text-on-surface font-semibold">Dietary &amp; Severe Allergies</h4>
+                  <span class="font-caption-sm text-caption-sm text-on-surface-variant">Tap to flag for kitchen</span>
+                </div>
+                <!-- Toggle Chip Grid -->
+                <div class="flex flex-wrap gap-2 pt-1" id="julianna-dietary-chips">
+                  <button type="button" onclick="toggleDietaryChip(this, 'julianna', 'Gluten-Free')" class="dietary-chip px-3 py-1.5 rounded-full bg-error-container text-on-error-container text-xs font-semibold border border-error/30 active:scale-95 transition-all">Gluten-Free ✓</button>
+                  <button type="button" onclick="toggleDietaryChip(this, 'julianna', 'Dairy-Free')" class="dietary-chip px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant text-xs font-medium border border-outline-variant/20 active:scale-95 transition-all">Dairy-Free</button>
+                  <button type="button" onclick="toggleDietaryChip(this, 'julianna', 'Nut Allergy')" class="dietary-chip px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant text-xs font-medium border border-outline-variant/20 active:scale-95 transition-all">Nut Allergy</button>
+                  <button type="button" onclick="toggleDietaryChip(this, 'julianna', 'Shellfish')" class="dietary-chip px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant text-xs font-medium border border-outline-variant/20 active:scale-95 transition-all">Shellfish</button>
+                  <button type="button" onclick="toggleDietaryChip(this, 'julianna', 'Vegan')" class="dietary-chip px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant text-xs font-medium border border-outline-variant/20 active:scale-95 transition-all">Vegan</button>
+                </div>
+                <div class="pt-2">
+                  <label class="text-xs font-medium text-on-surface-variant block mb-1">Executive Chef Special Note</label>
+                  <textarea id="julianna-chef-note" rows="2" class="w-full p-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/40 text-on-surface text-xs outline-none focus:border-primary resize-none" placeholder="E.g., Celiac cross-contamination advisory...">So excited to celebrate you both in beautiful Ravello!</textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Marcus Vance Section (+1 Attendee) -->
+            <div id="rsvp-marcus-section" class="rounded-2xl p-space-md bg-surface-container-low border border-outline-variant/30 space-y-space-sm shadow-sm">
+              <div class="flex items-center justify-between cursor-pointer" onclick="toggleMarcusAccordion()">
+                <div class="flex items-center space-x-2">
+                  <span class="material-symbols-outlined text-secondary">person_add</span>
+                  <span class="font-title-sm text-title-sm text-on-surface font-semibold">Plus-One: Marcus Vance</span>
+                </div>
+                <div class="flex items-center space-x-1.5">
+                  <span class="font-caption-sm text-caption-sm px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-semibold">Attending</span>
+                  <span class="material-symbols-outlined text-on-surface-variant" id="marcus-arrow">expand_more</span>
+                </div>
+              </div>
+              <div id="marcus-details" class="space-y-3 pt-2 border-t border-outline-variant/20">
+                <span class="text-xs font-semibold text-on-surface block">Marcus's Entrée Selection</span>
+                <div class="grid grid-cols-1 gap-2">
+                  <button onclick="selectEntree('marcus', 'seabass')" id="marcus-entree-seabass" class="p-2.5 rounded-xl bg-surface-container-low border-2 border-primary/60 text-left flex items-center justify-between">
+                    <div>
+                      <span class="text-xs font-semibold text-on-surface block">Pan-Seared Mediterranean Sea Bass</span>
+                      <span class="text-[10px] text-on-surface-variant">Citrus caper emulsion</span>
+                    </div>
+                    <span class="material-symbols-outlined text-primary text-[18px]" id="icon-marcus-seabass">check_circle</span>
+                  </button>
+                  <button onclick="selectEntree('marcus', 'beef')" id="marcus-entree-beef" class="p-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/30 text-left flex items-center justify-between">
+                    <div>
+                      <span class="text-xs font-semibold text-on-surface block">Tuscan Beef Tenderloin</span>
+                      <span class="text-[10px] text-on-surface-variant">Barolo reduction</span>
+                    </div>
+                    <span class="material-symbols-outlined text-outline-variant text-[18px]" id="icon-marcus-beef">radio_button_unchecked</span>
+                  </button>
+                </div>
+                <!-- Marcus Allergy -->
+                <div>
+                  <span class="text-xs font-semibold text-on-surface block mb-1">Marcus Dietary Allergy</span>
+                  <span class="inline-block px-2.5 py-1 rounded-full bg-error-container text-on-error-container text-xs font-semibold border border-error/30">Nut Allergy Flagged</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Save & Confirm Button -->
+            <button id="savePreferencesBtn" onclick="saveRsvpPreferences()" class="w-full py-3.5 px-space-md rounded-full bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md shadow-md active:scale-[0.98] transition-all flex items-center justify-center space-x-2">
+              <span class="material-symbols-outlined text-base">check</span>
+              <span>Save &amp; Confirm RSVP</span>
+            </button>
+
+            <!-- Floating Feedback Toast -->
+            <div id="rsvp-toast" class="opacity-0 translate-y-4 transition-all duration-300 pointer-events-none fixed bottom-24 inset-x-8 z-50 p-3 rounded-2xl bg-on-surface text-surface flex items-center space-x-2 shadow-2xl">
+              <span class="material-symbols-outlined text-secondary text-[20px]">task_alt</span>
+              <span class="text-xs font-medium flex-1" id="rsvp-toast-msg">RSVP Confirmed for Julianna &amp; Marcus!</span>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 5: DJ BOOTH & VIBE                        -->
+        <!-- ============================================== -->
+        <section id="view-dj" class="app-view w-full hidden">
+          <div class="flex flex-col w-full space-y-space-lg px-margin pt-3">
+            
+            <!-- Live "On the Decks" Ambient Mini-Card -->
+            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-surface-container-highest via-surface-container to-surface-container-low border border-outline-variant/30 p-space-md shadow-sm">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center space-x-2">
+                  <div class="w-2.5 h-2.5 rounded-full bg-secondary animate-ping"></div>
+                  <span class="font-caption-sm text-caption-sm text-secondary uppercase tracking-widest font-bold">Now On The Decks</span>
+                </div>
+                <div class="flex items-center space-x-1 text-on-surface-variant">
+                  <span class="material-symbols-outlined text-[16px]">headphones</span>
+                  <span class="font-caption-sm text-caption-sm">Helipad Pavilion</span>
+                </div>
+              </div>
+              
+              <div class="flex items-center space-x-space-md">
+                <!-- Rotating Vinyl Album Art -->
+                <div class="w-14 h-14 rounded-full bg-black border-2 border-secondary/60 flex items-center justify-center relative shadow-lg flex-shrink-0 animate-spin" style="animation-duration: 8s;">
+                  <div class="w-4 h-4 rounded-full bg-secondary border border-white"></div>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h3 class="font-title-sm text-title-sm text-on-surface font-semibold truncate" id="dj-track-title">Signed, Sealed, Delivered</h3>
+                  <p class="font-caption-sm text-caption-sm text-on-surface-variant truncate" id="dj-track-artist">Stevie Wonder • Tamla Motown</p>
+                  
+                  <!-- Sound wave equalizer -->
+                  <div class="flex items-center space-x-1 pt-1.5 h-4">
+                    <span class="w-1 bg-primary rounded-full eq-bar-1"></span>
+                    <span class="w-1 bg-secondary rounded-full eq-bar-2"></span>
+                    <span class="w-1 bg-primary rounded-full eq-bar-3"></span>
+                    <span class="w-1 bg-secondary rounded-full eq-bar-4"></span>
+                    <span class="w-1 bg-primary rounded-full eq-bar-2"></span>
+                    <span class="w-1 bg-secondary rounded-full eq-bar-1"></span>
+                    <span class="text-[10px] text-on-surface-variant pl-2">2:14 / 3:05</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Guest Request Limit Card -->
+            <div class="rounded-2xl p-space-md bg-surface-container-low border border-outline-variant/30 space-y-2 shadow-sm">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-1.5">
+                  <span class="material-symbols-outlined text-primary text-[18px]">queue_music</span>
+                  <span class="font-title-sm text-title-sm text-on-surface font-semibold">Your Song Requests</span>
+                </div>
+                <span class="font-caption-sm text-caption-sm px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-semibold" id="dj-remaining-pill">2 of 3 Left</span>
+              </div>
+              <p class="font-body-md text-xs text-on-surface-variant">To keep the dancefloor moving, each guest can request up to 3 priority tracks.</p>
+              <!-- Progress Meter -->
+              <div class="w-full bg-surface-container-highest rounded-full h-2 overflow-hidden">
+                <div id="dj-quota-bar" class="bg-primary h-full rounded-full transition-all duration-300" style="width: 33.3%;"></div>
+              </div>
+            </div>
+
+            <!-- Search & Submit Bar -->
+            <div class="space-y-2">
+              <div class="flex space-x-2">
+                <div class="relative flex-1">
+                  <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-[18px]">search</span>
+                  <input id="song-search-input" type="text" placeholder="Search track title, artist, or Spotify link..." class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/40 text-on-surface text-xs outline-none focus:border-primary shadow-sm"/>
+                </div>
+                <button id="submit-song-btn" onclick="submitSongRequest()" class="px-4 py-2.5 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-label-md text-xs font-semibold shadow-sm active:scale-95 transition-all flex items-center space-x-1 flex-shrink-0">
+                  <span>Submit</span>
+                  <span class="material-symbols-outlined text-[15px]">send</span>
+                </button>
+              </div>
+
+              <!-- Filter Tabs (Horizontal Scrollable Chips) -->
+              <div class="flex space-x-2 overflow-x-auto pb-1 pt-1 -mx-margin px-margin" id="dj-filter-chips">
+                <button onclick="filterDJCategory('all')" class="filter-tab px-3 py-1.5 rounded-full bg-primary text-on-primary text-xs font-semibold flex-shrink-0">Top Voted (Live)</button>
+                <button onclick="filterDJCategory('Disco Classics')" class="filter-tab px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant border border-outline-variant/30 text-xs font-medium flex-shrink-0">Disco Classics</button>
+                <button onclick="filterDJCategory('Late Night Anthems')" class="filter-tab px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant border border-outline-variant/30 text-xs font-medium flex-shrink-0">Late Night Anthems</button>
+                <button onclick="filterDJCategory('Slow Dances')" class="filter-tab px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant border border-outline-variant/30 text-xs font-medium flex-shrink-0">Slow Dances</button>
+                <button onclick="filterDJCategory('Italian Classics')" class="filter-tab px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant border border-outline-variant/30 text-xs font-medium flex-shrink-0">Italian Classics</button>
+              </div>
+            </div>
+
+            <!-- Live Crowdsourced Dancefloor Queue -->
+            <div class="space-y-space-sm pt-1">
+              <div class="flex items-center justify-between">
+                <h3 class="font-title-sm text-title-sm text-on-surface font-semibold">Live Dancefloor Queue</h3>
+                <span class="text-xs text-on-surface-variant" id="dj-queue-count">7 tracks queued</span>
+              </div>
+
+              <!-- Song List Cards Container -->
+              <div class="space-y-2" id="dj-song-list-container">
+                <!-- Dynamically rendered -->
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 6: ORGANIZER ADMIN DASHBOARD             -->
+        <!-- ============================================== -->
+        <section id="view-admin" class="app-view w-full hidden">
+          <div class="flex flex-col w-full space-y-space-lg px-margin pt-3">
+            
+            <!-- Admin Title Banner & Event Switcher -->
+            <div class="flex flex-col space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed">
+                  <span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+                  <span class="font-caption-sm text-caption-sm font-semibold tracking-wider uppercase">Reception Ready</span>
+                </div>
+                <span class="font-caption-sm text-caption-sm text-on-surface-variant">Host Master Controls</span>
+              </div>
+              <h2 class="font-headline-lg text-headline-lg font-serif text-primary">Organizer Admin Dashboard</h2>
+              <p class="font-body-md text-body-md text-on-surface-variant">Real-time RSVP headcount, guest dietary allocations, DJ queue exports, and push broadcast alerts.</p>
+            </div>
+
+            <!-- KPI Bento Grid -->
+            <div class="grid grid-cols-2 gap-3">
+              <!-- Total Guests -->
+              <div class="p-space-md rounded-2xl bg-surface-container-low border border-outline-variant/30 shadow-sm flex flex-col justify-between">
+                <div class="flex items-center justify-between">
+                  <span class="font-caption-sm text-caption-sm uppercase tracking-wider text-on-surface-variant font-semibold">Total Guests</span>
+                  <span class="material-symbols-outlined text-primary text-[20px]">group</span>
+                </div>
+                <div class="mt-2">
+                  <span class="font-display-lg text-headline-lg font-serif text-primary block leading-none" id="kpi-total-guests">142</span>
+                  <span class="text-xs text-on-surface-variant mt-1 block">142 Confirmed • 8 Declined</span>
+                </div>
+              </div>
+
+              <!-- Dietary Alerts -->
+              <div class="p-space-md rounded-2xl bg-surface-container-low border border-outline-variant/30 shadow-sm flex flex-col justify-between">
+                <div class="flex items-center justify-between">
+                  <span class="font-caption-sm text-caption-sm uppercase tracking-wider text-on-surface-variant font-semibold">Dietary Alerts</span>
+                  <span class="material-symbols-outlined text-error text-[20px]">no_meals</span>
+                </div>
+                <div class="mt-2">
+                  <span class="font-display-lg text-headline-lg font-serif text-error block leading-none" id="kpi-dietary-alerts">19</span>
+                  <span class="text-xs text-on-surface-variant mt-1 block">Gluten, Nut, Shellfish</span>
+                </div>
+              </div>
+
+              <!-- Calendar Synced Progress -->
+              <div class="p-space-md rounded-2xl bg-surface-container-low border border-outline-variant/30 shadow-sm flex flex-col justify-between">
+                <div class="flex items-center justify-between">
+                  <span class="font-caption-sm text-caption-sm uppercase tracking-wider text-on-surface-variant font-semibold">Apple Sync</span>
+                  <span class="material-symbols-outlined text-secondary text-[20px]">calendar_month</span>
+                </div>
+                <div class="mt-2">
+                  <span class="font-display-lg text-headline-lg font-serif text-secondary block leading-none" id="kpi-calendar-sync">88%</span>
+                  <span class="text-xs text-on-surface-variant mt-1 block">125 Guests Synced</span>
+                </div>
+              </div>
+
+              <!-- DJ Requests -->
+              <div class="p-space-md rounded-2xl bg-surface-container-low border border-outline-variant/30 shadow-sm flex flex-col justify-between">
+                <div class="flex items-center justify-between">
+                  <span class="font-caption-sm text-caption-sm uppercase tracking-wider text-on-surface-variant font-semibold">DJ Requests</span>
+                  <span class="material-symbols-outlined text-primary text-[20px]">music_note</span>
+                </div>
+                <div class="mt-2">
+                  <span class="font-display-lg text-headline-lg font-serif text-primary block leading-none" id="kpi-dj-requests">32</span>
+                  <span class="text-xs text-on-surface-variant mt-1 block">Highest: 38 upvotes</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Operational Quick Controls -->
+            <div class="rounded-2xl p-space-md bg-surface-container-low border border-outline-variant/30 space-y-space-md shadow-sm">
+              <h3 class="font-title-sm text-title-sm text-on-surface font-semibold">Operational Controls</h3>
+              
+              <!-- RSVP Lock Switch Row -->
+              <div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-lowest border border-outline-variant/20">
+                <div class="flex items-center space-x-2.5">
+                  <span class="material-symbols-outlined text-secondary text-[20px]" id="lock-icon">lock_open</span>
+                  <div>
+                    <h5 class="text-sm font-semibold text-on-surface">Lock Guest RSVP Changes</h5>
+                    <p class="text-xs text-on-surface-variant">Prevent attendees from modifying meal choices</p>
+                  </div>
+                </div>
+                <button type="button" onclick="toggleRsvpLock()" id="rsvp-lock-toggle" class="w-12 h-7 rounded-full bg-surface-container-highest flex items-center p-1 transition-colors">
+                  <div id="toggle-knob" class="w-5 h-5 rounded-full bg-white shadow-sm transition-transform"></div>
+                </button>
+              </div>
+
+              <!-- Action Buttons Array -->
+              <div class="grid grid-cols-2 gap-2">
+                <!-- Catering CSV -->
+                <a href="catering_manifest.csv" download="wedsync_catering_manifest.csv" class="py-2.5 px-3 rounded-xl bg-surface-container text-on-surface border border-outline-variant/30 text-xs font-semibold flex items-center justify-center space-x-1.5 hover:bg-surface-container-high transition-colors">
+                  <span class="material-symbols-outlined text-secondary text-[16px]">table_chart</span>
+                  <span>Catering CSV</span>
+                </a>
+                <!-- Export to DJ -->
+                <a href="dj_requests.csv" download="wedsync_dj_requests.csv" class="py-2.5 px-3 rounded-xl bg-surface-container text-on-surface border border-outline-variant/30 text-xs font-semibold flex items-center justify-center space-x-1.5 hover:bg-surface-container-high transition-colors">
+                  <span class="material-symbols-outlined text-primary text-[16px]">file_download</span>
+                  <span>Export to DJ</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Broadcast Notification Dispatch Panel -->
+            <div class="rounded-2xl p-space-md bg-surface-container-low border border-outline-variant/30 space-y-space-sm shadow-sm">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                  <span class="material-symbols-outlined text-primary text-[20px]">campaign</span>
+                  <h3 class="font-title-sm text-title-sm text-on-surface font-semibold">Broadcast Push Notification</h3>
+                </div>
+                <span class="font-caption-sm text-caption-sm text-secondary font-semibold">All 142 Guests</span>
+              </div>
+              <p class="font-body-md text-xs text-on-surface-variant">Instant push alert delivered directly to guest devices &amp; Dynamic Island.</p>
+              
+              <!-- Instant Alert Presets -->
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <button type="button" onclick="setBroadcastPreset('Shuttle departing Piazza Duomo in 15 minutes!')" class="px-2.5 py-1 rounded-full bg-surface-container-highest text-on-surface text-[11px] hover:bg-surface-container transition-colors">Shuttle in 15 min</button>
+                <button type="button" onclick="setBroadcastPreset('Ceremony seating now open on the Belvedere Terrace.')" class="px-2.5 py-1 rounded-full bg-surface-container-highest text-on-surface text-[11px] hover:bg-surface-container transition-colors">Ceremony Seating Open</button>
+                <button type="button" onclick="setBroadcastPreset('First Dance &amp; Champagne Toast starting at the Crypt!')" class="px-2.5 py-1 rounded-full bg-surface-container-highest text-on-surface text-[11px] hover:bg-surface-container transition-colors">First Dance Toast</button>
+              </div>
+
+              <div class="pt-2 space-y-2">
+                <textarea id="broadcast-input" rows="2" class="w-full p-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/40 text-on-surface text-xs outline-none focus:border-primary resize-none" placeholder="Enter broadcast message to all guests..."></textarea>
+                <button onclick="sendPushBroadcast()" class="w-full py-2.5 px-4 rounded-full bg-primary hover:bg-primary-container text-on-primary font-label-md text-xs font-semibold shadow-sm active:scale-[0.98] transition-all flex items-center justify-center space-x-1.5">
+                  <span class="material-symbols-outlined text-base">send</span>
+                  <span>Broadcast Push to Guests</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Guest Responses Mini-Table preview -->
+            <div class="space-y-space-sm pb-4">
+              <div class="flex items-center justify-between">
+                <h4 class="font-title-sm text-title-sm text-on-surface font-semibold">Guest Roster &amp; Dietary Flags</h4>
+                <span class="text-xs text-on-surface-variant">10 of 142 shown</span>
+              </div>
+
+              <div class="space-y-2" id="admin-guest-roster">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+
+      <!-- FIXED BOTTOM NAVIGATION BAR -->
+      <nav id="phone-nav-bar" class="hidden absolute bottom-0 inset-x-0 z-50 pb-safe bg-surface/90 backdrop-blur-2xl border-t border-outline-variant/30 shadow-[0_-1px_12px_rgba(31,29,27,0.06)]">
+        <div class="flex items-center justify-around h-14 px-space-xs">
+          <button onclick="navigateToTab('timeline')" id="nav-timeline" class="nav-tab-btn flex flex-col items-center justify-center min-w-[54px] min-h-[44px] transition-colors text-primary font-semibold">
+            <span class="material-symbols-outlined text-[20px]">calendar_today</span>
+            <span class="font-caption-sm text-[10px] mt-0.5">Timeline</span>
+          </button>
+          <button onclick="navigateToTab('venue')" id="nav-venue" class="nav-tab-btn flex flex-col items-center justify-center min-w-[54px] min-h-[44px] text-on-surface-variant hover:text-on-surface transition-colors">
+            <span class="material-symbols-outlined text-[20px]">location_on</span>
+            <span class="font-caption-sm text-[10px] mt-0.5">Venue</span>
+          </button>
+          <button onclick="navigateToTab('rsvp')" id="nav-rsvp" class="nav-tab-btn flex flex-col items-center justify-center min-w-[54px] min-h-[44px] text-on-surface-variant hover:text-on-surface transition-colors">
+            <span class="material-symbols-outlined text-[20px]">restaurant</span>
+            <span class="font-caption-sm text-[10px] mt-0.5">RSVP</span>
+          </button>
+          <button onclick="navigateToTab('dj')" id="nav-dj" class="nav-tab-btn flex flex-col items-center justify-center min-w-[54px] min-h-[44px] text-on-surface-variant hover:text-on-surface transition-colors">
+            <span class="material-symbols-outlined text-[20px]">graphic_eq</span>
+            <span class="font-caption-sm text-[10px] mt-0.5">DJ Vibe</span>
+          </button>
+          <button onclick="navigateToTab('admin')" id="nav-admin" class="nav-tab-btn flex flex-col items-center justify-center min-w-[54px] min-h-[44px] text-on-surface-variant hover:text-on-surface transition-colors">
+            <span class="material-symbols-outlined text-[20px]">tune</span>
+            <span class="font-caption-sm text-[10px] mt-0.5">Host</span>
+          </button>
+        </div>
+        <!-- iOS Home Indicator -->
+        <div class="flex justify-center pb-1">
+          <div class="w-32 h-1 bg-on-surface/20 rounded-full"></div>
+        </div>
+      </nav>
+
+    </div>
+  </main>
+
+  <!-- MODALS OVERLAY SYSTEM -->
+  
+  <!-- QR Scanner Viewfinder Modal -->
+  <div id="modal-qr" class="hidden fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="w-full max-w-sm rounded-3xl bg-[#141316] border border-slate-700 p-6 flex flex-col items-center space-y-4 shadow-2xl relative">
+      <button onclick="closeQRScanner()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+      <div class="text-center">
+        <h3 class="font-semibold text-white text-base">Scan Wedding Invitation QR</h3>
+        <p class="text-xs text-slate-400 mt-1">Align the QR code on your envelope or invitation suite</p>
+      </div>
+      <!-- Viewfinder box -->
+      <div class="w-56 h-56 rounded-2xl border-2 border-dashed border-amber-400/70 relative overflow-hidden flex items-center justify-center bg-black/60">
+        <div class="scan-line absolute left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent shadow-[0_0_12px_#f2be8c]"></div>
+        <span class="material-symbols-outlined text-slate-600 text-6xl">qr_code_2</span>
+      </div>
+      <button onclick="simulateQRSuccess()" class="w-full py-3 rounded-full bg-[#d4a373] text-[#141316] font-semibold text-xs active:scale-95 transition-all">
+        Simulate QR Detection (WED-SOPHIE-2026)
+      </button>
+    </div>
+  </div>
+
+  <!-- Phone OTP Modal -->
+  <div id="modal-phone" class="hidden fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="w-full max-w-sm rounded-3xl bg-[#141316] border border-slate-700 p-6 flex flex-col items-center space-y-4 shadow-2xl relative">
+      <button onclick="closePhoneModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+      <div class="text-center">
+        <h3 class="font-semibold text-white text-base">Phone OTP Authentication</h3>
+        <p class="text-xs text-slate-400 mt-1">Enter code sent to +1 (555) 382-9012</p>
+      </div>
+      <div class="flex gap-2">
+        <input type="text" value="8" class="w-12 h-12 text-center text-xl font-bold bg-slate-800 rounded-xl text-white outline-none border border-slate-600"/>
+        <input type="text" value="4" class="w-12 h-12 text-center text-xl font-bold bg-slate-800 rounded-xl text-white outline-none border border-slate-600"/>
+        <input type="text" value="9" class="w-12 h-12 text-center text-xl font-bold bg-slate-800 rounded-xl text-white outline-none border border-slate-600"/>
+        <input type="text" value="2" class="w-12 h-12 text-center text-xl font-bold bg-slate-800 rounded-xl text-white outline-none border border-slate-600"/>
+      </div>
+      <button onclick="simulatePhoneSuccess()" class="w-full py-3 rounded-full bg-[#d4a373] text-[#141316] font-semibold text-xs active:scale-95 transition-all">
+        Verify &amp; Enter Wedding Hub
+      </button>
+    </div>
+  </div>
+
+  <!-- Concierge Modal -->
+  <div id="modal-concierge" class="hidden fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="w-full max-w-sm rounded-3xl bg-surface border border-outline-variant p-6 flex flex-col items-center space-y-4 shadow-2xl relative text-on-surface">
+      <button onclick="closeConciergeModal()" class="absolute top-4 right-4 text-on-surface-variant hover:text-on-surface">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+      <div class="w-12 h-12 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center">
+        <span class="material-symbols-outlined text-2xl">support_agent</span>
+      </div>
+      <div class="text-center">
+        <h3 class="font-semibold text-base font-serif">Wedding Concierge Desk</h3>
+        <p class="text-xs text-on-surface-variant mt-1">Available 24/7 for guest logistics, golf cart shuttles, luggage assistance, and Amalfi boat transfers.</p>
+      </div>
+      <div class="w-full space-y-2">
+        <a href="tel:+39089857456" class="w-full py-2.5 px-4 rounded-full bg-primary text-on-primary font-semibold text-xs flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-[16px]">call</span>
+          <span>Call Desk: +39 089 857 456</span>
+        </a>
+        <a href="https://wa.me/39089857456" target="_blank" class="w-full py-2.5 px-4 rounded-full bg-surface-container text-on-surface border border-outline-variant/40 font-semibold text-xs flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-tertiary text-[16px]">chat</span>
+          <span>WhatsApp Concierge Chat</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPLICATION JAVASCRIPT LOGIC -->
+  <script>
+    // Global Application State
+    let appState = {{
+      isUnlocked: false,
+      currentTab: 'timeline',
+      theme: 'editorial', // 'editorial' or 'nocturne'
+      persona: 'guest',    // 'guest' or 'host'
+      deviceView: 'iphone',
+      rsvp: {{
+        attending: true,
+        juliannaEntree: 'beef',
+        juliannaDietary: ['Gluten-Free'],
+        juliannaNote: 'So excited to celebrate you both in beautiful Ravello!',
+        marcusAttending: true,
+        marcusEntree: 'seabass',
+        marcusDietary: ['Nut Allergy']
+      }},
+      rsvpLocked: false,
+      dj: {{
+        requestsRemaining: 2,
+        userVotedIds: ['song-1', 'song-4'],
+        filterCategory: 'all',
+        songs: [
+          {{ id: 'song-1', title: 'September', artist: 'Earth, Wind & Fire', category: 'Disco Classics', votes: 38, requestedBy: 'Julianna Vance' }},
+          {{ id: 'song-2', title: 'Levitating', artist: 'Dua Lipa', category: 'Late Night Anthems', votes: 29, requestedBy: 'Liam Sterling' }},
+          {{ id: 'song-3', title: 'L-O-V-E', artist: 'Nat King Cole', category: 'Slow Dances', votes: 24, requestedBy: 'Camille Dupont' }},
+          {{ id: 'song-4', title: 'Dancing in the Moonlight', artist: 'Toploader', category: 'Disco Classics', votes: 19, requestedBy: 'Elena Rostova' }},
+          {{ id: 'song-5', title: 'This Will Be (An Everlasting Love)', artist: 'Natalie Cole', category: 'Disco Classics', votes: 16, requestedBy: 'Matteo Rossi' }},
+          {{ id: 'song-6', title: 'Gimme! Gimme! Gimme!', artist: 'ABBA', category: 'Late Night Anthems', votes: 15, requestedBy: 'Chloe Laurent' }},
+          {{ id: 'song-7', title: 'Sarà perché ti amo', artist: 'Ricchi e Poveri', category: 'Italian Classics', votes: 13, requestedBy: 'Alessandro Moretti' }}
+        ]
+      }},
+      stats: {{
+        totalGuests: 142,
+        dietaryAlerts: 19,
+        calendarSyncPct: 88,
+        djRequestsCount: 32
+      }},
+      guestRoster: [
+        {{ name: 'Julianna Vance', table: 4, entree: 'Beef Tenderloin', allergies: 'Gluten-Free', status: 'Confirmed' }},
+        {{ name: 'Marcus Vance', table: 4, entree: 'Sea Bass', allergies: 'Nut Allergy', status: 'Confirmed' }},
+        {{ name: 'Camille Dupont', table: 2, entree: 'Sea Bass', allergies: 'Shellfish', status: 'Confirmed' }},
+        {{ name: 'Liam Sterling', table: 7, entree: 'Truffle Agnolotti', allergies: 'Vegetarian', status: 'Confirmed' }},
+        {{ name: 'Elena Rostova', table: 1, entree: 'Beef Tenderloin', allergies: 'None', status: 'Confirmed' }},
+        {{ name: 'Matteo Rossi', table: 3, entree: 'Sea Bass', allergies: 'None', status: 'Confirmed' }},
+        {{ name: 'Chloe Laurent', table: 5, entree: 'Truffle Agnolotti', allergies: 'Vegan', status: 'Confirmed' }},
+        {{ name: 'Alessandro Moretti', table: 2, entree: 'Beef Tenderloin', allergies: 'Dairy-Free', status: 'Confirmed' }},
+        {{ name: 'David Kim', table: 6, entree: 'Beef Tenderloin', allergies: 'None', status: 'Confirmed' }},
+        {{ name: 'Sofia Chen', table: 6, entree: 'Sea Bass', allergies: 'Nut Allergy', status: 'Confirmed' }}
+      ]
+    }};
+
+    // Web Audio Chime generator for iOS feedback
+    function playAudioChime() {{
+      try {{
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+        osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.15); // A5
+        gain.gain.setValueAtTime(0.12, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.35);
+      }} catch(e) {{}}
+    }}
+
+    // Real-time Clock
+    function updateClock() {{
+      const now = new Date();
+      let hours = now.getHours();
+      let mins = now.getMinutes();
+      if (mins < 10) mins = '0' + mins;
+      const el = document.getElementById('ios-clock');
+      if (el) el.textContent = `${{hours}}:${{mins}}`;
+    }}
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Live Countdown
+    function updateCountdown() {{
+      const target = new Date('2026-09-19T15:30:00+02:00').getTime();
+      const now = new Date().getTime();
+      const diff = Math.max(0, target - now);
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+      const elDays = document.getElementById('cd-days');
+      const elHours = document.getElementById('cd-hours');
+      const elMins = document.getElementById('cd-mins');
+      const elSecs = document.getElementById('cd-secs');
+      const pill = document.getElementById('header-countdown-pill');
+
+      if (elDays) elDays.textContent = days;
+      if (elHours) elHours.textContent = hours;
+      if (elMins) elMins.textContent = mins;
+      if (elSecs) elSecs.textContent = secs;
+      if (pill) pill.textContent = `${{days}} D`;
+    }}
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // PIN Input Auto-Advance
+    function handlePinInput(current, nextId) {{
+      if (current.value.length === 1 && nextId) {{
+        document.getElementById(nextId).focus();
+      }}
+    }}
+
+    function handlePinComplete() {{
+      setTimeout(unlockWeddingHub, 300);
+    }}
+
+    // Unlock Wedding Hub
+    function unlockWeddingHub() {{
+      appState.isUnlocked = true;
+      playAudioChime();
+      document.getElementById('view-welcome').classList.add('hidden');
+      document.getElementById('phone-app-header').classList.remove('hidden');
+      document.getElementById('phone-nav-bar').classList.remove('hidden');
+      navigateToTab('timeline');
+      showDynamicIslandAlert('Welcome, Julianna & Marcus!', 'Villa Cimbrone Guest Hub Unlocked');
+      saveLocalState();
+    }}
+
+    // Tab Navigation
+    function navigateToTab(tabName) {{
+      appState.currentTab = tabName;
+      const views = ['welcome', 'timeline', 'venue', 'rsvp', 'dj', 'admin'];
+      views.forEach(v => {{
+        const el = document.getElementById(`view-${{v}}`);
+        if (el) {{
+          if (v === tabName) {{
+            el.classList.remove('hidden');
+          }} else {{
+            el.classList.add('hidden');
+          }}
+        }}
+      }});
+
+      // Update Nav Buttons Active Colors
+      document.querySelectorAll('.nav-tab-btn').forEach(btn => {{
+        btn.classList.remove('text-primary', 'font-semibold');
+        btn.classList.add('text-on-surface-variant');
+      }});
+      const activeNav = document.getElementById(`nav-${{tabName}}`);
+      if (activeNav) {{
+        activeNav.classList.remove('text-on-surface-variant');
+        activeNav.classList.add('text-primary', 'font-semibold');
+      }}
+
+      // Scroll top
+      const scrollBody = document.getElementById('phone-scroll-body');
+      if (scrollBody) scrollBody.scrollTo({{ top: 0, behavior: 'smooth' }});
+    }}
+
+    // Device View Switcher
+    function setDeviceView(mode) {{
+      appState.deviceView = mode;
+      const container = document.getElementById('device-container');
+      container.classList.remove('device-iphone', 'device-ipad', 'device-full');
+      container.classList.add(`device-${{mode}}`);
+
+      // Update switcher buttons
+      ['iphone', 'ipad', 'full'].forEach(m => {{
+        const btn = document.getElementById(`btn-device-${{m}}`);
+        if (btn) {{
+          if (m === mode) {{
+            btn.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-700 text-white font-medium transition-all shadow-sm';
+          }} else {{
+            btn.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all';
+          }}
+        }}
+      }});
+    }}
+
+    // Theme Switcher
+    function toggleTheme() {{
+      const html = document.documentElement;
+      const isDark = html.classList.toggle('dark');
+      appState.theme = isDark ? 'nocturne' : 'editorial';
+      
+      const deskIcon = document.getElementById('desktop-theme-icon');
+      const deskLabel = document.getElementById('desktop-theme-label');
+      const phoneIcon = document.getElementById('phone-theme-icon');
+
+      if (isDark) {{
+        if (deskIcon) deskIcon.textContent = 'dark_mode';
+        if (deskLabel) deskLabel.textContent = 'Nocturne & Champagne';
+        if (phoneIcon) phoneIcon.textContent = 'dark_mode';
+      }} else {{
+        if (deskIcon) deskIcon.textContent = 'wb_sunny';
+        if (deskLabel) deskLabel.textContent = 'Editorial Romance';
+        if (phoneIcon) phoneIcon.textContent = 'wb_sunny';
+      }}
+      saveLocalState();
+    }}
+
+    // Persona Switcher
+    function setPersona(p) {{
+      appState.persona = p;
+      const btnGuest = document.getElementById('btn-persona-guest');
+      const btnHost = document.getElementById('btn-persona-host');
+      if (p === 'host') {{
+        btnHost.className = 'px-2.5 py-1 rounded-lg bg-rose-950 text-rose-200 font-medium transition-all flex items-center gap-1';
+        btnGuest.className = 'px-2.5 py-1 rounded-lg text-slate-400 hover:text-white transition-all flex items-center gap-1';
+        if (!appState.isUnlocked) unlockWeddingHub();
+        navigateToTab('admin');
+      }} else {{
+        btnGuest.className = 'px-2.5 py-1 rounded-lg bg-rose-950 text-rose-200 font-medium transition-all flex items-center gap-1';
+        btnHost.className = 'px-2.5 py-1 rounded-lg text-slate-400 hover:text-white transition-all flex items-center gap-1';
+        if (!appState.isUnlocked) unlockWeddingHub();
+        navigateToTab('timeline');
+      }}
+    }}
+
+    // Dynamic Island Alert System
+    let diTimeout = null;
+    function showDynamicIslandAlert(title, message) {{
+      const di = document.getElementById('dynamic-island');
+      const norm = document.getElementById('di-pill-normal');
+      const exp = document.getElementById('di-pill-expanded');
+      const t = document.getElementById('di-title');
+      const d = document.getElementById('di-desc');
+
+      if (!di) return;
+      playAudioChime();
+
+      if (t) t.textContent = title;
+      if (d) d.textContent = message;
+
+      norm.classList.add('hidden');
+      exp.classList.remove('hidden');
+      di.classList.add('expanded');
+
+      if (diTimeout) clearTimeout(diTimeout);
+      diTimeout = setTimeout(() => {{
+        collapseDynamicIsland();
+      }}, 5000);
+    }}
+
+    function collapseDynamicIsland() {{
+      const di = document.getElementById('dynamic-island');
+      const norm = document.getElementById('di-pill-normal');
+      const exp = document.getElementById('di-pill-expanded');
+      if (!di) return;
+
+      di.classList.remove('expanded');
+      setTimeout(() => {{
+        exp.classList.add('hidden');
+        norm.classList.remove('hidden');
+      }}, 300);
+    }}
+
+    function toggleDynamicIsland() {{
+      const di = document.getElementById('dynamic-island');
+      if (di.classList.contains('expanded')) {{
+        collapseDynamicIsland();
+      }} else {{
+        showDynamicIslandAlert('WedSync • Now Playing', 'Stevie Wonder — Signed, Sealed, Delivered');
+      }}
+    }}
+
+    // Calendar Sync Trigger
+    function triggerCalSync() {{
+      const btn = document.getElementById('cal-sync-btn');
+      const txt = document.getElementById('cal-btn-text');
+      txt.textContent = 'Generating Apple Calendar file...';
+      playAudioChime();
+
+      setTimeout(() => {{
+        // Trigger download
+        const icsData = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//WedSync//Sophie and Julian Wedding Weekend//EN\r\nCALSCALE:GREGORIAN\r\nMETHOD:PUBLISH\r\nX-WR-CALNAME:Sophie & Julian Wedding Weekend\r\nX-WR-TIMEZONE:Europe/Rome\r\nBEGIN:VEVENT\r\nUID:wedsync-2026-09-18-01@wedsync.local\r\nDTSTAMP:20260901T000000Z\r\nDTSTART;TZID=Europe/Rome:20260918T140000\r\nDTEND;TZID=Europe/Rome:20260918T170000\r\nSUMMARY:Guest Arrival & Champagne Welcome\r\nLOCATION:Villa Cimbrone Belvedere Terrace, Ravello, Italy\r\nSTATUS:CONFIRMED\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:wedsync-2026-09-19-02@wedsync.local\r\nDTSTAMP:20260901T000000Z\r\nDTSTART;TZID=Europe/Rome:20260919T153000\r\nDTEND;TZID=Europe/Rome:20260919T164500\r\nSUMMARY:Ceremony & Exchange of Vows\r\nLOCATION:Villa Cimbrone Infinity Terrace, Ravello, Italy\r\nSTATUS:CONFIRMED\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:wedsync-2026-09-19-03@wedsync.local\r\nDTSTAMP:20260901T000000Z\r\nDTSTART;TZID=Europe/Rome:20260919T170000\r\nDTEND;TZID=Europe/Rome:20260919T190000\r\nSUMMARY:Cocktail Hour & Sunset Aperitivo\r\nLOCATION:Villa Cimbrone Rose Gardens & Cloister, Ravello, Italy\r\nSTATUS:CONFIRMED\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:wedsync-2026-09-19-04@wedsync.local\r\nDTSTAMP:20260901T000000Z\r\nDTSTART;TZID=Europe/Rome:20260919T193000\r\nDTEND;TZID=Europe/Rome:20260919T223000\r\nSUMMARY:Dinner Banquet & Speeches\r\nLOCATION:The Gothic Crypt, Villa Cimbrone, Ravello, Italy\r\nSTATUS:CONFIRMED\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:wedsync-2026-09-19-05@wedsync.local\r\nDTSTAMP:20260901T000000Z\r\nDTSTART;TZID=Europe/Rome:20260919T230000\r\nDTEND;TZID=Europe/Rome:20260920T030000\r\nSUMMARY:After-Party & DJ Set\r\nLOCATION:The Helipad Pavilion, Villa Cimbrone, Ravello, Italy\r\nSTATUS:CONFIRMED\r\nEND:VEVENT\r\nEND:VCALENDAR";
+        const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'sophie_julian_wedding.ics';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        txt.textContent = 'All 5 Events Synced to Apple Calendar ✓';
+        btn.classList.remove('bg-primary');
+        btn.classList.add('bg-tertiary');
+
+        appState.stats.calendarSyncPct = 100;
+        const kpi = document.getElementById('kpi-calendar-sync');
+        if (kpi) kpi.textContent = '100%';
+
+        showDynamicIslandAlert('Calendar Synced ✓', '5 Wedding events added to Apple Calendar');
+      }}, 600);
+    }}
+
+    // Timeline Day Tabs Filter
+    function switchTimelineTab(idx) {{
+      const tabs = document.querySelectorAll('.tab-pill');
+      tabs.forEach((t, i) => {{
+        if (i === idx) {{
+          t.className = 'tab-pill flex-1 py-1.5 px-3 rounded-full text-center font-label-md text-label-md bg-surface-container-lowest text-primary font-semibold shadow-sm transition-all';
+        }} else {{
+          t.className = 'tab-pill flex-1 py-1.5 px-3 rounded-full text-center font-label-md text-label-md text-on-surface-variant transition-all hover:text-on-surface';
+        }}
+      }});
+
+      const allEvents = document.querySelectorAll('.timeline-event');
+      allEvents.forEach(ev => {{
+        if (ev.classList.contains(`day-${{idx}}`)) {{
+          ev.classList.remove('hidden');
+        }} else {{
+          ev.classList.add('hidden');
+        }}
+      }});
+    }}
+
+    // Timeline Reminders
+    function toggleReminder(btn) {{
+      const icon = btn.querySelector('.material-symbols-outlined');
+      const label = btn.querySelector('span:last-child');
+      if (label.innerText.includes('Remind Me')) {{
+        label.innerText = 'Reminder Set ✓';
+        icon.innerText = 'done';
+        btn.className = 'inline-flex items-center space-x-1 px-3 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed text-xs font-medium';
+        showDynamicIslandAlert('Notification Scheduled', 'You will be alerted 1 hour prior');
+      }} else {{
+        label.innerText = 'Remind Me';
+        icon.innerText = 'notifications_none';
+        btn.className = 'inline-flex items-center space-x-1 px-3 py-1 rounded-full bg-surface-container text-on-surface text-xs font-medium hover:bg-surface-container-high';
+      }}
+    }}
+
+    // Venue Interactive Pins
+    const pinData = {{
+      cimbrone: {{
+        title: 'Villa Cimbrone Estate',
+        subtitle: 'Ceremony, Banquet &amp; Reception Grounds',
+        icon: 'castle'
+      }},
+      shuttle: {{
+        title: 'Piazza Duomo Shuttle Hub',
+        subtitle: 'Mercedes Sprinter Shuttles every 15 minutes',
+        icon: 'directions_bus'
+      }},
+      parking: {{
+        title: 'Guest Parking Lot B',
+        subtitle: 'Reserved Valet &amp; Self-Park for Attendees',
+        icon: 'local_parking'
+      }}
+    }};
+
+    function selectPin(id) {{
+      const data = pinData[id] || pinData.cimbrone;
+      document.getElementById('active-pin-title').innerHTML = data.title;
+      document.getElementById('active-pin-sub').innerHTML = data.subtitle;
+      document.getElementById('active-pin-icon').textContent = data.icon;
+      playAudioChime();
+    }}
+
+    function recenterMap() {{
+      selectPin('cimbrone');
+      showDynamicIslandAlert('Map Recentered', 'Villa Cimbrone, Ravello');
+    }}
+
+    function toggleMapCompass() {{
+      const icon = document.getElementById('map-compass-icon');
+      if (icon) icon.classList.toggle('rotate-45');
+    }}
+
+    function toggleCartRequest() {{
+      const btn = document.getElementById('cart-request-btn');
+      if (btn.innerText.includes('Request Cart')) {{
+        btn.innerText = 'Requested ✓ (En route 5m)';
+        btn.classList.remove('bg-tertiary');
+        btn.classList.add('bg-secondary');
+        showDynamicIslandAlert('Electric Golf Cart En Route', 'Driver arriving at Piazza Duomo in 5 min');
+      }} else {{
+        btn.innerText = 'Request Cart';
+        btn.classList.remove('bg-secondary');
+        btn.classList.add('bg-tertiary');
+      }}
+    }}
+
+    // RSVP Interactions
+    function setAttendance(isYes) {{
+      appState.rsvp.attending = isYes;
+      const btnYes = document.getElementById('btn-attend-yes');
+      const btnNo = document.getElementById('btn-attend-no');
+
+      if (isYes) {{
+        btnYes.className = 'attendance-btn flex-1 py-2.5 px-3 rounded-full text-center font-label-md text-label-md bg-surface-container-lowest text-primary font-semibold shadow-sm transition-all flex items-center justify-center space-x-1.5';
+        btnNo.className = 'attendance-btn flex-1 py-2.5 px-3 rounded-full text-center font-label-md text-label-md text-on-surface-variant transition-all hover:text-on-surface flex items-center justify-center space-x-1.5';
+      }} else {{
+        btnNo.className = 'attendance-btn flex-1 py-2.5 px-3 rounded-full text-center font-label-md text-label-md bg-surface-container-lowest text-primary font-semibold shadow-sm transition-all flex items-center justify-center space-x-1.5';
+        btnYes.className = 'attendance-btn flex-1 py-2.5 px-3 rounded-full text-center font-label-md text-label-md text-on-surface-variant transition-all hover:text-on-surface flex items-center justify-center space-x-1.5';
+      }}
+    }}
+
+    function switchRsvpGuest(guest) {{
+      const tabJ = document.getElementById('tab-guest-julianna');
+      const tabM = document.getElementById('tab-guest-marcus');
+      if (guest === 'julianna') {{
+        tabJ.className = 'flex-1 py-1.5 px-3 rounded-lg bg-surface-container-lowest text-primary font-semibold text-xs shadow-sm transition-all';
+        tabM.className = 'flex-1 py-1.5 px-3 rounded-lg text-on-surface-variant text-xs transition-all hover:text-on-surface';
+        document.getElementById('rsvp-julianna-section').scrollIntoView({{ behavior: 'smooth' }});
+      }} else {{
+        tabM.className = 'flex-1 py-1.5 px-3 rounded-lg bg-surface-container-lowest text-primary font-semibold text-xs shadow-sm transition-all';
+        tabJ.className = 'flex-1 py-1.5 px-3 rounded-lg text-on-surface-variant text-xs transition-all hover:text-on-surface';
+        document.getElementById('rsvp-marcus-section').scrollIntoView({{ behavior: 'smooth' }});
+      }}
+    }}
+
+    function selectEntree(guest, entreeKey) {{
+      if (guest === 'julianna') {{
+        appState.rsvp.juliannaEntree = entreeKey;
+        ['beef', 'seabass', 'agnolotti'].forEach(k => {{
+          const card = document.getElementById(`julianna-entree-${{k}}`);
+          const icon = document.getElementById(`icon-julianna-${{k}}`);
+          if (k === entreeKey) {{
+            card.className = 'entree-card p-space-md rounded-2xl bg-surface-container-low border-2 border-primary/60 cursor-pointer transition-all shadow-sm flex items-start justify-between';
+            icon.innerText = 'check_circle';
+            icon.className = 'material-symbols-outlined text-primary text-[22px] flex-shrink-0';
+          }} else {{
+            card.className = 'entree-card p-space-md rounded-2xl bg-surface-container-lowest border border-outline-variant/30 cursor-pointer transition-all shadow-sm flex items-start justify-between';
+            icon.innerText = 'radio_button_unchecked';
+            icon.className = 'material-symbols-outlined text-outline-variant text-[22px] flex-shrink-0';
+          }}
+        }});
+      }} else {{
+        appState.rsvp.marcusEntree = entreeKey;
+        ['beef', 'seabass'].forEach(k => {{
+          const btn = document.getElementById(`marcus-entree-${{k}}`);
+          const icon = document.getElementById(`icon-marcus-${{k}}`);
+          if (k === entreeKey) {{
+            btn.className = 'p-2.5 rounded-xl bg-surface-container-low border-2 border-primary/60 text-left flex items-center justify-between';
+            icon.innerText = 'check_circle';
+            icon.className = 'material-symbols-outlined text-primary text-[18px]';
+          }} else {{
+            btn.className = 'p-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/30 text-left flex items-center justify-between';
+            icon.innerText = 'radio_button_unchecked';
+            icon.className = 'material-symbols-outlined text-outline-variant text-[18px]';
+          }}
+        }});
+      }}
+      playAudioChime();
+    }}
+
+    function toggleDietaryChip(btn, guest, diet) {{
+      const idx = appState.rsvp.juliannaDietary.indexOf(diet);
+      if (idx > -1) {{
+        appState.rsvp.juliannaDietary.splice(idx, 1);
+        btn.className = 'dietary-chip px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant text-xs font-medium border border-outline-variant/20 active:scale-95 transition-all';
+        btn.textContent = diet;
+      }} else {{
+        appState.rsvp.juliannaDietary.push(diet);
+        btn.className = 'dietary-chip px-3 py-1.5 rounded-full bg-error-container text-on-error-container text-xs font-semibold border border-error/30 active:scale-95 transition-all';
+        btn.textContent = `${{diet}} ✓`;
+      }}
+    }}
+
+    function toggleMarcusAccordion() {{
+      const d = document.getElementById('marcus-details');
+      const a = document.getElementById('marcus-arrow');
+      d.classList.toggle('hidden');
+      a.textContent = d.classList.contains('hidden') ? 'chevron_right' : 'expand_more';
+    }}
+
+    function saveRsvpPreferences() {{
+      if (appState.rsvpLocked) {{
+        alert('RSVP changes are currently locked by the wedding hosts.');
+        return;
+      }}
+      playAudioChime();
+      const toast = document.getElementById('rsvp-toast');
+      toast.classList.remove('opacity-0', 'translate-y-4');
+      toast.classList.add('opacity-100', 'translate-y-0');
+
+      // Update Organizer Stats in real-time
+      if (appState.rsvp.attending) {{
+        appState.stats.totalGuests = 142;
+      }} else {{
+        appState.stats.totalGuests = 140;
+      }}
+      appState.stats.dietaryAlerts = 18 + appState.rsvp.juliannaDietary.length;
+
+      document.getElementById('kpi-total-guests').textContent = appState.stats.totalGuests;
+      document.getElementById('kpi-dietary-alerts').textContent = appState.stats.dietaryAlerts;
+
+      showDynamicIslandAlert('RSVP Confirmed ✓', 'Julianna & Marcus Vance preferences saved');
+
+      setTimeout(() => {{
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'translate-y-4');
+      }}, 3200);
+
+      saveLocalState();
+    }}
+
+    // DJ Booth Logic
+    function renderDJQueue() {{
+      const container = document.getElementById('dj-song-list-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      let list = [...appState.dj.songs];
+      if (appState.dj.filterCategory !== 'all') {{
+        list = list.filter(s => s.category === appState.dj.filterCategory);
+      }}
+
+      // Sort by votes descending
+      list.sort((a, b) => b.votes - a.votes);
+
+      list.forEach((song, idx) => {{
+        const isUpvoted = appState.dj.userVotedIds.includes(song.id);
+        const card = document.createElement('div');
+        card.className = 'p-space-md rounded-2xl bg-surface-container-low border border-outline-variant/30 flex items-center justify-between shadow-sm transition-all hover:bg-surface-container';
+        card.innerHTML = `
+          <div class="flex items-center space-x-3 min-w-0 pr-2">
+            <span class="font-headline-md font-serif text-secondary text-base w-5 text-center flex-shrink-0">${{idx + 1}}</span>
+            <div class="flex flex-col min-w-0">
+              <span class="font-title-sm text-sm font-semibold text-on-surface truncate">${{song.title}}</span>
+              <span class="text-xs text-on-surface-variant truncate">${{song.artist}}</span>
+              <span class="text-[10px] text-secondary mt-0.5 font-medium">Req by ${{song.requestedBy}}</span>
+            </div>
+          </div>
+          <button onclick="toggleUpvote('${{song.id}}')" class="px-3 py-1.5 rounded-full flex items-center space-x-1 text-xs font-semibold shadow-sm active:scale-95 transition-all flex-shrink-0 ${{isUpvoted ? 'bg-primary text-on-primary ring-1 ring-primary' : 'bg-surface-container-highest text-on-surface-variant border border-outline-variant/40'}}">
+            <span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' ${{isUpvoted ? 1 : 0}}">favorite</span>
+            <span>${{song.votes}}</span>
+          </button>
+        `;
+        container.appendChild(card);
+      }});
+
+      document.getElementById('dj-queue-count').textContent = `${{list.length}} tracks queued`;
+      document.getElementById('kpi-dj-requests').textContent = appState.dj.songs.length * 4 + 4;
+    }}
+
+    function toggleUpvote(songId) {{
+      const song = appState.dj.songs.find(s => s.id === songId);
+      if (!song) return;
+      playAudioChime();
+
+      const idx = appState.dj.userVotedIds.indexOf(songId);
+      if (idx > -1) {{
+        appState.dj.userVotedIds.splice(idx, 1);
+        song.votes -= 1;
+      }} else {{
+        appState.dj.userVotedIds.push(songId);
+        song.votes += 1;
+      }}
+      renderDJQueue();
+      saveLocalState();
+    }}
+
+    function filterDJCategory(cat) {{
+      appState.dj.filterCategory = cat;
+      document.querySelectorAll('.filter-tab').forEach(t => {{
+        t.className = 'filter-tab px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant border border-outline-variant/30 text-xs font-medium flex-shrink-0';
+      }});
+      event.target.className = 'filter-tab px-3 py-1.5 rounded-full bg-primary text-on-primary text-xs font-semibold flex-shrink-0';
+      renderDJQueue();
+    }}
+
+    function submitSongRequest() {{
+      const input = document.getElementById('song-search-input');
+      const val = input.value.trim();
+      if (!val) {{
+        input.focus();
+        return;
+      }}
+
+      if (appState.dj.requestsRemaining <= 0) {{
+        alert('You have reached the 3-song request limit for Julianna Vance.');
+        return;
+      }}
+
+      playAudioChime();
+      appState.dj.requestsRemaining -= 1;
+      const parts = val.split('—').map(s => s.trim());
+      const title = parts[0] || val;
+      const artist = parts[1] || 'Guest Request';
+
+      const newSong = {{
+        id: `song-${{Date.now()}}`,
+        title: title,
+        artist: artist,
+        category: 'Top Voted',
+        votes: 1,
+        requestedBy: 'Julianna Vance'
+      }};
+      appState.dj.songs.unshift(newSong);
+      appState.dj.userVotedIds.push(newSong.id);
+
+      input.value = '';
+      document.getElementById('dj-remaining-pill').textContent = `${{appState.dj.requestsRemaining}} of 3 Left`;
+      document.getElementById('dj-quota-bar').style.width = `${{((3 - appState.dj.requestsRemaining) / 3) * 100}}%`;
+
+      renderDJQueue();
+      showDynamicIslandAlert('Track Requested ✓', `${{title}} added to dancefloor queue`);
+      saveLocalState();
+    }}
+
+    // Admin Dashboard Controls
+    function toggleRsvpLock() {{
+      appState.rsvpLocked = !appState.rsvpLocked;
+      const toggle = document.getElementById('rsvp-lock-toggle');
+      const knob = document.getElementById('toggle-knob');
+      const icon = document.getElementById('lock-icon');
+
+      if (appState.rsvpLocked) {{
+        toggle.classList.remove('bg-surface-container-highest');
+        toggle.classList.add('bg-primary');
+        knob.classList.add('translate-x-5');
+        icon.textContent = 'lock';
+        showDynamicIslandAlert('RSVP Locked', 'Guest modifications are disabled');
+      }} else {{
+        toggle.classList.remove('bg-primary');
+        toggle.classList.add('bg-surface-container-highest');
+        knob.classList.remove('translate-x-5');
+        icon.textContent = 'lock_open';
+        showDynamicIslandAlert('RSVP Unlocked', 'Guests can update meal selections');
+      }}
+    }}
+
+    function setBroadcastPreset(msg) {{
+      const input = document.getElementById('broadcast-input');
+      if (input) {{
+        input.value = msg;
+        input.focus();
+      }}
+    }}
+
+    function sendPushBroadcast() {{
+      const input = document.getElementById('broadcast-input');
+      const msg = input.value.trim();
+      if (!msg) {{
+        alert('Please enter an announcement message.');
+        return;
+      }}
+
+      // Broadcast to server API
+      fetch('/api/broadcast', {{
+        method: 'POST',
+        headers: {{ 'Content-Type': 'application/json' }},
+        body: JSON.stringify({{ message: msg, sender: 'Sophie & Julian (Hosts)' }})
+      }}).catch(e => {{}});
+
+      showDynamicIslandAlert('Sophie & Julian Broadcast', msg);
+      input.value = '';
+    }}
+
+    function renderAdminRoster() {{
+      const container = document.getElementById('admin-guest-roster');
+      if (!container) return;
+      container.innerHTML = '';
+
+      appState.guestRoster.forEach(g => {{
+        const item = document.createElement('div');
+        item.className = 'p-3 rounded-xl bg-surface-container-lowest border border-outline-variant/20 flex items-center justify-between text-xs';
+        item.innerHTML = `
+          <div class="flex flex-col">
+            <span class="font-semibold text-on-surface">${{g.name}}</span>
+            <span class="text-on-surface-variant">Table ${{g.table}} • ${{g.entree}}</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            ${{g.allergies !== 'None' ? `<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-semibold">${{g.allergies}}</span>` : ''}}
+            <span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-semibold">${{g.status}}</span>
+          </div>
+        `;
+        container.appendChild(item);
+      }});
+    }}
+
+    // Modal Handlers
+    function openQRScanner() {{
+      document.getElementById('modal-qr').classList.remove('hidden');
+    }}
+    function closeQRScanner() {{
+      document.getElementById('modal-qr').classList.add('hidden');
+    }}
+    function simulateQRSuccess() {{
+      closeQRScanner();
+      unlockWeddingHub();
+    }}
+
+    function openPhoneModal() {{
+      document.getElementById('modal-phone').classList.remove('hidden');
+    }}
+    function closePhoneModal() {{
+      document.getElementById('modal-phone').classList.add('hidden');
+    }}
+    function simulatePhoneSuccess() {{
+      closePhoneModal();
+      unlockWeddingHub();
+    }}
+
+    function openConciergeModal() {{
+      document.getElementById('modal-concierge').classList.remove('hidden');
+    }}
+    function closeConciergeModal() {{
+      document.getElementById('modal-concierge').classList.add('hidden');
+    }}
+
+    // Local Storage & Server Sync
+    function saveLocalState() {{
+      try {{
+        localStorage.setItem('wedsync_state', JSON.stringify(appState));
+        fetch('/api/state', {{
+          method: 'POST',
+          headers: {{ 'Content-Type': 'application/json' }},
+          body: JSON.stringify(appState)
+        }}).catch(e => {{}});
+      }} catch(e) {{}}
+    }}
+
+    function loadInitialState() {{
+      try {{
+        const saved = localStorage.getItem('wedsync_state');
+        if (saved) {{
+          const parsed = JSON.parse(saved);
+          if (parsed && typeof parsed === 'object') {{
+            appState = Object.assign(appState, parsed);
+          }}
+        }}
+      }} catch(e) {{}}
+
+      renderDJQueue();
+      renderAdminRoster();
+      if (appState.isUnlocked) {{
+        unlockWeddingHub();
+      }}
+    }}
+
+    function resetDemoState() {{
+      if (confirm('Reset demo state to initial PRD defaults?')) {{
+        localStorage.removeItem('wedsync_state');
+        window.location.reload();
+      }}
+    }}
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', loadInitialState);
+  </script>
+</body>
+</html>
+'''
+
+    out_path = os.path.join(WORKSPACE, "index.html")
+    with open(out_path, "w", encoding="utf-8") as f:
+        f.write(html_content)
+    print(f"Successfully generated {out_path} ({len(html_content)} bytes)")
+
+if __name__ == "__main__":
+    main()

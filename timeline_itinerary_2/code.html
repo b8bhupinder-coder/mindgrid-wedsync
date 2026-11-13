@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+
+<html class="h-full dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<meta content="mobile_tab" name="shell-type"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-tint": "#f0bd8b",
+            "inverse-surface": "#e6e1e5",
+            "surface-container-high": "#2b292d",
+            "surface-container-lowest": "#0f0e11",
+            "on-surface-variant": "#d4c4b7",
+            "primary-fixed": "#ffdcbd",
+            "error-container": "#93000a",
+            "on-error-container": "#ffdad6",
+            "secondary-fixed-dim": "#ffb59a",
+            "tertiary-fixed": "#ffdad8",
+            "surface-container-low": "#1c1b1e",
+            "tertiary-container": "#f6908f",
+            "surface-container-highest": "#363437",
+            "surface-dim": "#141316",
+            "secondary-fixed": "#ffdbce",
+            "inverse-on-surface": "#313033",
+            "primary": "#f2be8c",
+            "on-error": "#690005",
+            "on-secondary-container": "#f5a587",
+            "surface": "#121114",
+            "on-secondary-fixed-variant": "#6f3720",
+            "inverse-primary": "#7d562d",
+            "on-primary-fixed": "#2c1600",
+            "on-tertiary-fixed-variant": "#7a2d30",
+            "tertiary-fixed-dim": "#ffb3b1",
+            "on-tertiary-container": "#72272a",
+            "outline-variant": "#36333b",
+            "surface-container": "#1c1a20",
+            "background": "#121114",
+            "on-secondary": "#53210c",
+            "on-tertiary": "#5c171b",
+            "on-primary": "#482904",
+            "error": "#ffb4ab",
+            "surface-variant": "#24222a",
+            "on-primary-container": "#5b3912",
+            "on-secondary-fixed": "#380d00",
+            "on-background": "#f3ede7",
+            "surface-bright": "#3a383c",
+            "secondary-container": "#3d2b22",
+            "on-tertiary-fixed": "#3f0209",
+            "on-surface": "#f3ede7",
+            "secondary": "#e2a979",
+            "primary-container": "#d4a373",
+            "primary-fixed-dim": "#f0bd8b",
+            "outline": "#9c8e82",
+            "on-primary-fixed-variant": "#623f18",
+            "tertiary": "#ffb5b3"
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px"
+          },
+          spacing: {
+            "space-lg": "1.5rem",
+            "gutter-md": "1.5rem",
+            "gutter-lg": "2rem",
+            "margin-md": "2rem",
+            "space-sm": "0.5rem",
+            "margin": "1rem",
+            "space-xs": "0.25rem",
+            "margin-lg": "3rem",
+            "gutter": "1rem",
+            "space-xl": "2.5rem",
+            "space-md": "1rem",
+            "gutter-sm": "0.75rem",
+            "margin-sm": "1rem"
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+            body: ["Inter", "sans-serif"],
+            display: ["Inter", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        min-height: 100%;
+        -webkit-tap-highlight-color: transparent;
+        font-family: 'Inter', sans-serif;
+      }
+      body {
+        overscroll-behavior-y: none;
+      }
+      .pb-safe {
+        padding-bottom: env(safe-area-inset-bottom, 20px);
+      }
+      .pt-safe {
+        padding-top: env(safe-area-inset-top, 44px);
+      }
+      main > :first-child {
+        margin-top: 0 !important;
+      }
+      main > :last-child {
+        margin-bottom: 0 !important;
+      }
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-[#121114] font-sans text-[#f3ede7] antialiased flex flex-col min-h-full transition-colors duration-300">
+<!-- Header Bar -->
+<header class="fixed top-0 inset-x-0 z-50 bg-[#121114]/90 backdrop-blur-xl border-b border-white/[0.06] pt-safe transition-colors duration-300">
+<div class="flex justify-between items-center px-4 h-7 text-[#f3ede7] select-none text-xs font-semibold tracking-tight">
+<span>9:41</span>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">signal_cellular_alt</span>
+<span class="material-symbols-outlined text-[16px]">wifi</span>
+<span class="material-symbols-outlined text-[18px]">battery_full</span>
+</div>
+</div>
+<div class="h-16 px-4 flex items-center justify-between">
+<div class="flex items-center gap-2.5 min-w-0">
+<img alt="WedSync Brand Logo" class="h-8 w-auto object-contain flex-shrink-0 filter brightness-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcHE7hi70DcWa4ZSsJfCgDStqKIjAWPXAu0wuGA61q3QqcmUrCw3hvaj8WlnNxtzPaWlXH3hnGt-Yg9g0tBXte3IITLPdjGT8Z7oeEnd6-yeKnoZjN1QkSKfqWGvQQLBAt62X7dFKtlSah0hhNJEOv7HgYo2x4M8A1GIBhcEp0QKV5pq3c2QxJdBs-o8f-Id2m_WaVmrelsw_lIbHnfsKzp2roiPeVnWAw1S9JqRb8"/>
+<div class="flex flex-col min-w-0">
+<span class="text-base text-[#f2be8c] font-semibold tracking-tight truncate leading-none">Sophie &amp; Julian</span>
+<span class="text-[11px] text-[#9c948e] uppercase tracking-widest leading-normal mt-0.5">Timeline</span>
+</div>
+</div>
+<div class="flex items-center gap-2 flex-shrink-0">
+<!-- Dark / Light Mode Switch Toggle -->
+<button aria-label="Toggle Dark and Light theme" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[#1c1a20] border border-white/10 text-xs font-medium text-[#f2be8c] shadow-sm hover:bg-[#24222a] active:scale-95 transition-all" id="theme-toggle" onclick="toggleTheme()" type="button">
+<span class="material-symbols-outlined text-[15px]" id="theme-toggle-icon">dark_mode</span>
+<span class="text-[11px] font-semibold uppercase tracking-wider text-[#d4c4b7]" id="theme-toggle-label">Dark</span>
+</button>
+<div class="hidden xs:flex items-center gap-1 bg-[#1c1a20] border border-white/10 px-2.5 py-1 rounded-full text-[#f2be8c]">
+<span class="material-symbols-outlined text-[14px]">favorite</span>
+<span class="text-[11px] font-semibold">142 D</span>
+</div>
+<div class="p-0.5 rounded-full ring-1 ring-[#f2be8c]/40">
+<img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAA8sLaZRO987xUdNNvJhoFcoYBHLtEFDl377KF5pS9M3zBhFkRNznR12674mwVp-nkVpIhQ-3AEVgiKyB1JRhzg4h2n0IzOaJrcIcnFwXBgdqLdTTyiyeQkYyg27LyvrBsxvjRlmaeJqXLI_dqLyYhttlDOrhy1YyuHPKJDPyfC9vsc3cQs9dQtAbLYeIKQ0GcHkGHGNI-Hp6Ofbr20Rnu7AyMRmil-7ZoMFasmkO8"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Container -->
+<main class="flex-1 flex flex-col relative w-full px-4 pt-28 pb-28 bg-[#121114] transition-colors duration-300">
+<div class="flex flex-col w-full space-y-4">
+<!-- Weather Toast Notice -->
+<div class="flex items-center justify-between px-3.5 py-2.5 bg-[#241f1a] border border-[#f2be8c]/20 rounded-xl text-[#f3ede7] shadow-sm">
+<div class="flex items-center gap-2.5 min-w-0">
+<span class="material-symbols-outlined text-[20px] text-[#f2be8c] flex-shrink-0" style="font-variation-settings: 'FILL' 1;">wb_sunny</span>
+<p class="text-xs text-[#d4c4b7] truncate">
+<span class="font-bold text-[#f2be8c]">Weather Notice:</span> All Saturday events are sunny (76°F) &amp; on schedule.
+          </p>
+</div>
+<button class="p-1 text-[#9c948e] hover:text-[#f3ede7]" onclick="this.parentElement.remove()" type="button">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+<!-- Countdown & Offline Status Banner -->
+<div class="relative overflow-hidden rounded-xl bg-[#1c1a20] border border-white/[0.08] shadow-sm p-4">
+<div class="flex items-center justify-between mb-2.5">
+<span class="text-[11px] text-[#f2be8c] uppercase tracking-widest font-semibold">Tuscan Celebration</span>
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-950/70 border border-emerald-500/30 text-emerald-300">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+<span class="text-[11px] font-semibold">Offline Cached</span>
+</div>
+</div>
+<h2 class="text-xl font-semibold tracking-tight text-[#f3ede7] mb-3">48 Days Until The Big Day</h2>
+<div class="grid grid-cols-3 gap-2.5 text-center">
+<div class="bg-[#24222a] border border-white/[0.05] rounded-lg py-2.5 px-2 flex flex-col items-center">
+<span class="text-2xl text-[#f2be8c] font-bold tracking-tight leading-none" id="timer-days">48</span>
+<span class="text-[11px] text-[#9c948e] uppercase font-medium mt-1">Days</span>
+</div>
+<div class="bg-[#24222a] border border-white/[0.05] rounded-lg py-2.5 px-2 flex flex-col items-center">
+<span class="text-2xl text-[#f2be8c] font-bold tracking-tight leading-none" id="timer-hours">14</span>
+<span class="text-[11px] text-[#9c948e] uppercase font-medium mt-1">Hours</span>
+</div>
+<div class="bg-[#24222a] border border-white/[0.05] rounded-lg py-2.5 px-2 flex flex-col items-center">
+<span class="text-2xl text-[#f2be8c] font-bold tracking-tight leading-none" id="timer-mins">32</span>
+<span class="text-[11px] text-[#9c948e] uppercase font-medium mt-1">Mins</span>
+</div>
+</div>
+</div>
+<!-- Hero Calendar Sync Action Card -->
+<div class="relative overflow-hidden rounded-xl bg-[#1c1a20] border border-white/[0.08] p-4 shadow-sm">
+<div class="flex items-start gap-3.5">
+<div class="w-11 h-11 rounded-full bg-[#f2be8c]/15 border border-[#f2be8c]/20 flex items-center justify-center flex-shrink-0 text-[#f2be8c]">
+<span class="material-symbols-outlined text-[24px]">event_upcoming</span>
+</div>
+<div class="flex-1 min-w-0">
+<h3 class="text-sm font-semibold tracking-tight text-[#f3ede7]">Keep Weekend Schedule in Pocket</h3>
+<p class="text-xs text-[#9c948e] mt-1 mb-3.5 leading-relaxed">
+              Get automatic departure alerts &amp; real-time map directions synced directly to your iPhone.
+            </p>
+<button class="w-full flex items-center justify-center gap-2 h-11 rounded-full bg-[#d4a373] text-[#2c1600] font-semibold text-xs tracking-wide transition-all active:scale-[0.98] shadow-md hover:bg-[#f2be8c]" id="cal-sync-btn" onclick="triggerCalSync()">
+<span class="material-symbols-outlined text-[18px]">calendar_add_on</span>
+<span id="cal-btn-text">Sync to Apple Calendar</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Multi-Day Itinerary Segment Switcher -->
+<div class="flex flex-col space-y-2 pt-1">
+<div class="flex items-center justify-between px-1">
+<h3 class="text-base font-semibold tracking-tight text-[#f3ede7]">The Weekend Itinerary</h3>
+<span class="text-[11px] text-[#f2be8c] font-semibold uppercase tracking-wider">Florence, IT</span>
+</div>
+<!-- Segmented Tab Navigation -->
+<div class="flex p-1 bg-[#1c1a20] border border-white/[0.08] rounded-full overflow-x-auto no-scrollbar">
+<button class="tab-pill flex-1 min-w-[95px] py-2 px-3 rounded-full text-center text-xs font-medium text-[#9c948e] transition-all hover:text-[#f3ede7]" data-tab="0" onclick="switchTab(0)">
+            Fri Sep 18
+          </button>
+<button class="tab-pill flex-1 min-w-[105px] py-2 px-3 rounded-full text-center text-xs bg-[#2b2733] border border-[#f2be8c]/30 text-[#f2be8c] font-semibold shadow-sm transition-all" data-tab="1" onclick="switchTab(1)">
+            Sat Sep 19
+          </button>
+<button class="tab-pill flex-1 min-w-[95px] py-2 px-3 rounded-full text-center text-xs font-medium text-[#9c948e] transition-all hover:text-[#f3ede7]" data-tab="2" onclick="switchTab(2)">
+            Sun Sep 20
+          </button>
+</div>
+</div>
+<!-- Timeline Stream -->
+<div class="relative flex flex-col space-y-4 pl-3.5">
+<!-- Vertical continuous stem -->
+<div class="absolute left-[22px] top-3 bottom-4 w-0.5 bg-[#36333b] -z-0"></div>
+<!-- Event 1: Arrival -->
+<div class="relative flex items-start gap-3.5 z-10">
+<div class="w-3.5 h-3.5 rounded-full bg-[#f2be8c] ring-4 ring-[#121114] flex-shrink-0 mt-2 shadow-sm"></div>
+<div class="flex-1 bg-[#1c1a20] border border-white/[0.08] rounded-xl p-3.5 shadow-sm">
+<div class="flex items-center justify-between">
+<span class="text-xs text-[#f2be8c] font-bold tracking-tight">03:30 PM</span>
+<span class="inline-flex items-center gap-1 text-[11px] text-[#ffdcbd] bg-[#3a2c22] border border-[#f2be8c]/20 px-2 py-0.5 rounded-full font-medium">
+<span class="material-symbols-outlined text-[13px]">airport_shuttle</span> Shuttle q15m
+              </span>
+</div>
+<h4 class="text-sm font-semibold tracking-tight text-[#f3ede7] mt-1.5 leading-snug">Guest Arrival &amp; Champagne Welcome</h4>
+<div class="flex items-center gap-1 text-[#9c948e] text-xs mt-1">
+<span class="material-symbols-outlined text-[14px]">pin_drop</span>
+<span>The Belvedere Gardens</span>
+</div>
+<div class="my-2.5 rounded-lg overflow-hidden h-28 w-full bg-[#24222a] border border-white/[0.05]">
+<img class="w-full h-full object-cover filter brightness-95" data-alt="An elegant Tuscan villa garden with lush cypress trees, manicured hedges, marble statues, guests in stylish resort attire holding crystal champagne flutes under golden afternoon sunlight with warm terracotta stone walls in the background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGakfkM7qRWsAlaR-xwjdptH4FPkiZX-9R64iwDuHz-qZz_Vcbw8uxq9P_gHU93mscuWmqd2AJ8F3b_ZFE81GKW0NFYgy5RvmDmziM6t9XJHDy7hlHaiVbp1EM8E61pplByRb5zCR6vJKb2f9s_resdaj7mm5r9OYTUK4KlZ8P1ERUaqR0trw1ltnblJPzbE-Ep8rPXOjpM7Z2097HjTjpLIVGWWjFhIpm_kZABNGb"/>
+</div>
+<div class="flex items-center gap-2 mb-2.5">
+<span class="text-[11px] px-2 py-0.5 bg-[#24222a] border border-white/[0.06] rounded text-[#d4c4b7] font-medium">Dress: Resort Chic</span>
+</div>
+<div class="flex items-center gap-2 pt-1">
+<button class="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-full bg-[#24222a] border border-white/[0.08] text-[#f3ede7] text-xs font-medium active:scale-95 transition-all hover:bg-[#2b2933]" onclick="toggleReminder(this)">
+<span class="material-symbols-outlined text-[15px]">notifications_none</span>
+<span>Remind Me</span>
+</button>
+<a class="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-full bg-[#3a2c22] border border-[#f2be8c]/25 text-[#f2be8c] text-xs font-semibold active:scale-95 transition-all hover:bg-[#49372a]" href="#">
+<span class="material-symbols-outlined text-[15px]">directions</span>
+<span>View Venue</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Event 2: Ceremony -->
+<div class="relative flex items-start gap-3.5 z-10">
+<div class="w-3.5 h-3.5 rounded-full bg-[#d4a373] ring-4 ring-[#121114] flex-shrink-0 mt-2 shadow-sm"></div>
+<div class="flex-1 bg-[#1c1a20] border border-white/[0.08] rounded-xl p-3.5 shadow-sm">
+<div class="flex items-center justify-between">
+<span class="text-xs text-[#f2be8c] font-bold tracking-tight">04:30 PM</span>
+<span class="inline-flex items-center gap-1 text-[11px] text-[#ffdcbd] bg-[#5b3912]/70 border border-[#f2be8c]/30 px-2 py-0.5 rounded-full font-semibold">
+                Key Moment
+              </span>
+</div>
+<h4 class="text-sm font-semibold tracking-tight text-[#f3ede7] mt-1.5 leading-snug">Ceremony &amp; Exchange of Vows</h4>
+<div class="flex items-center gap-1 text-[#9c948e] text-xs mt-1">
+<span class="material-symbols-outlined text-[14px]">pin_drop</span>
+<span>The Infinity Terrace</span>
+</div>
+<div class="my-2.5 rounded-lg overflow-hidden h-28 w-full bg-[#24222a] border border-white/[0.05]">
+<img class="w-full h-full object-cover filter brightness-95" data-alt="Breathtaking infinity stone terrace overlooking Tuscan rolling hills and vineyards at sunset, lavish floral arch woven with blush roses and olive branches, wooden ceremonial chairs aligned with romantic editorial lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBe3oCJEdzI0jWAUMNxaYrXt0v9w4w-sFNSJOg0kMKjpkGjjwR79Iu40NIIJCHC8vOT1rg5zq-uzvrKw2kRjcqBCCSX1dOqJKc3vPCQ3mMqp-roLQXVQLZ_-iQAw4QCa0Y4_8riZOQud7MN_zcuK-FbGQiv23PWOIR5M7NDE_6dkFGu0q8aWEMuLUKnAI811vkosKgX5ODgy-sOA9N-a2kbFwgODsAk7IKi38hvvXcO"/>
+</div>
+<div class="flex flex-wrap items-center gap-1.5 mb-2.5">
+<span class="text-[11px] px-2 py-0.5 bg-[#24222a] border border-white/[0.06] rounded text-[#d4c4b7] font-medium">Dress: Black Tie Optional</span>
+<span class="text-[11px] px-2 py-0.5 bg-[#24222a] border border-white/[0.06] rounded text-[#d4c4b7] font-medium">Unplugged Vows</span>
+</div>
+<div class="flex items-center gap-2 pt-1">
+<button class="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-full bg-[#24222a] border border-white/[0.08] text-[#f3ede7] text-xs font-medium active:scale-95 transition-all hover:bg-[#2b2933]" onclick="toggleReminder(this)">
+<span class="material-symbols-outlined text-[15px]">notifications_none</span>
+<span>Remind Me</span>
+</button>
+<a class="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-full bg-[#3a2c22] border border-[#f2be8c]/25 text-[#f2be8c] text-xs font-semibold active:scale-95 transition-all hover:bg-[#49372a]" href="#">
+<span class="material-symbols-outlined text-[15px]">directions</span>
+<span>View Venue</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Event 3: Cocktail Hour -->
+<div class="relative flex items-start gap-3.5 z-10">
+<div class="w-3.5 h-3.5 rounded-full bg-[#f2be8c] ring-4 ring-[#121114] flex-shrink-0 mt-2 shadow-sm"></div>
+<div class="flex-1 bg-[#1c1a20] border border-white/[0.08] rounded-xl p-3.5 shadow-sm">
+<div class="flex items-center justify-between">
+<span class="text-xs text-[#f2be8c] font-bold tracking-tight">06:00 PM</span>
+<span class="inline-flex items-center gap-1 text-[11px] text-emerald-300 bg-emerald-950/60 border border-emerald-500/30 px-2 py-0.5 rounded-full font-medium">
+<span class="material-symbols-outlined text-[13px]">music_note</span> Live Jazz Trio
+              </span>
+</div>
+<h4 class="text-sm font-semibold tracking-tight text-[#f3ede7] mt-1.5 leading-snug">Cocktail Hour &amp; Aperitivo</h4>
+<div class="flex items-center gap-1 text-[#9c948e] text-xs mt-1">
+<span class="material-symbols-outlined text-[14px]">pin_drop</span>
+<span>The Lemon Grove Courtyard</span>
+</div>
+<p class="text-xs text-[#9c948e] mt-2 leading-relaxed">
+              Artisanal charcuterie, Aperol Spritz bar, and hand-passed Tuscan hors d'oeuvres under illuminated citrus trees.
+            </p>
+<div class="flex items-center gap-2 pt-2 mt-2">
+<button class="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-full bg-[#24222a] border border-white/[0.08] text-[#f3ede7] text-xs font-medium active:scale-95 transition-all hover:bg-[#2b2933]" onclick="toggleReminder(this)">
+<span class="material-symbols-outlined text-[15px]">notifications_none</span>
+<span>Remind Me</span>
+</button>
+<a class="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-full bg-[#3a2c22] border border-[#f2be8c]/25 text-[#f2be8c] text-xs font-semibold active:scale-95 transition-all hover:bg-[#49372a]" href="#">
+<span class="material-symbols-outlined text-[15px]">directions</span>
+<span>View Venue</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Event 4: Banquet -->
+<div class="relative flex items-start gap-3.5 z-10">
+<div class="w-3.5 h-3.5 rounded-full bg-[#f2be8c] ring-4 ring-[#121114] flex-shrink-0 mt-2 shadow-sm"></div>
+<div class="flex-1 bg-[#1c1a20] border border-white/[0.08] rounded-xl p-3.5 shadow-sm">
+<div class="flex items-center justify-between">
+<span class="text-xs text-[#f2be8c] font-bold tracking-tight">07:30 PM</span>
+<span class="text-[11px] text-[#9c948e] font-medium bg-[#24222a] px-2 py-0.5 rounded border border-white/[0.05]">Seated Course</span>
+</div>
+<h4 class="text-sm font-semibold tracking-tight text-[#f3ede7] mt-1.5 leading-snug">Dinner Banquet &amp; Speeches</h4>
+<div class="flex items-center gap-1 text-[#9c948e] text-xs mt-1">
+<span class="material-symbols-outlined text-[14px]">pin_drop</span>
+<span>The Grand Villa Hall</span>
+</div>
+<div class="my-2.5 rounded-lg overflow-hidden h-28 w-full bg-[#24222a] border border-white/[0.05]">
+<img class="w-full h-full object-cover filter brightness-95" data-alt="Long rustic imperial banqueting tables set with tapered candles in gold holders, fine crystal glassware, calligraphed linen place cards, and fresh rosemary sprigs under magnificent renaissance villa chandeliers" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7i4AUsPXw72cZpvO16dBOImp5Sr5Bc1s7PTWdnBlccV0QGoRLCz5a9J7aHMEYVWygQGz4eYESXE-O1e6tPXGLZbmXHgcrdZgTdC1bPnQ07bFYyFIJ5oReeErgeChNGzfbblJw_bYTasXU0fLFUqVjhYcRSuekAP9WYi4d1gF9h-gjJ4Dfs-y1oV2hkOniAXKPy5xKCmaoIZOv8CZ7F3l80ZNBbbGCcUNKZzBXzVMb"/>
+</div>
+<div class="flex items-center gap-2 mb-2.5">
+<span class="text-[11px] px-2 py-0.5 bg-[#24222a] border border-white/[0.06] rounded text-[#d4c4b7] font-medium">4-Course Tuscan Wine Pairing</span>
+</div>
+<div class="flex items-center gap-2 pt-1">
+<button class="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-full bg-[#24222a] border border-white/[0.08] text-[#f3ede7] text-xs font-medium active:scale-95 transition-all hover:bg-[#2b2933]" onclick="toggleReminder(this)">
+<span class="material-symbols-outlined text-[15px]">notifications_none</span>
+<span>Remind Me</span>
+</button>
+<a class="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-full bg-[#3a2c22] border border-[#f2be8c]/25 text-[#f2be8c] text-xs font-semibold active:scale-95 transition-all hover:bg-[#49372a]" href="#">
+<span class="material-symbols-outlined text-[15px]">directions</span>
+<span>View Venue</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Event 5: After Party -->
+<div class="relative flex items-start gap-3.5 z-10">
+<div class="w-3.5 h-3.5 rounded-full bg-[#e2a979] ring-4 ring-[#121114] flex-shrink-0 mt-2 shadow-sm"></div>
+<div class="flex-1 bg-[#1c1a20] border border-white/[0.08] rounded-xl p-3.5 shadow-sm">
+<div class="flex items-center justify-between">
+<span class="text-xs text-[#f2be8c] font-bold tracking-tight">10:00 PM</span>
+<span class="inline-flex items-center gap-1 text-[11px] text-[#ffb59a] bg-[#3d2b22] border border-[#ffb59a]/30 px-2 py-0.5 rounded-full font-semibold">
+                Late Night
+              </span>
+</div>
+<h4 class="text-sm font-semibold tracking-tight text-[#f3ede7] mt-1.5 leading-snug">After-Party &amp; DJ Set</h4>
+<div class="flex items-center gap-1 text-[#9c948e] text-xs mt-1">
+<span class="material-symbols-outlined text-[14px]">pin_drop</span>
+<span>The Vault Cellar</span>
+</div>
+<p class="text-xs text-[#9c948e] mt-2 leading-relaxed">
+              Curated vinyl sounds by DJ Leo, wood-fired midnight pizza slices, espresso martini cart, and dancing till late.
+            </p>
+<div class="flex items-center gap-2 pt-2 mt-2">
+<button class="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-full bg-[#24222a] border border-white/[0.08] text-[#f3ede7] text-xs font-medium active:scale-95 transition-all hover:bg-[#2b2933]" onclick="toggleReminder(this)">
+<span class="material-symbols-outlined text-[15px]">notifications_none</span>
+<span>Remind Me</span>
+</button>
+<a class="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-full bg-[#3a2c22] border border-[#f2be8c]/25 text-[#f2be8c] text-xs font-semibold active:scale-95 transition-all hover:bg-[#49372a]" href="#">
+<span class="material-symbols-outlined text-[15px]">directions</span>
+<span>View Venue</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Intimate Bottom Note -->
+<div class="pt-4 pb-2 text-center">
+<p class="text-sm text-[#f2be8c] font-medium italic">"Together with our families, we can't wait to celebrate."</p>
+<p class="text-[11px] text-[#9c948e] mt-1 font-normal">Questions? Reach out to our concierge via Host Tab</p>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-[#121114]/90 backdrop-blur-2xl border-t border-white/[0.06] transition-colors duration-300" data-active-classes="text-[#f2be8c] font-semibold">
+<div class="flex items-center justify-around h-16 px-1">
+<a aria-current="page" class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] transition-colors text-[#f2be8c] font-semibold" data-path="timeline" href="#">
+<span class="material-symbols-outlined text-[22px]">calendar_today</span>
+<span class="text-[10px] mt-0.5 tracking-tight">Timeline</span>
+</a>
+<a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] text-[#9c948e] hover:text-[#f3ede7] transition-colors font-medium" data-path="venue" href="#">
+<span class="material-symbols-outlined text-[22px]">location_on</span>
+<span class="text-[10px] mt-0.5 tracking-tight">Venue</span>
+</a>
+<a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] text-[#9c948e] hover:text-[#f3ede7] transition-colors font-medium" data-path="rsvp-menu" href="#">
+<span class="material-symbols-outlined text-[22px]">restaurant</span>
+<span class="text-[10px] mt-0.5 tracking-tight">RSVP</span>
+</a>
+<a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] text-[#9c948e] hover:text-[#f3ede7] transition-colors font-medium" data-path="dj-vibe" href="#">
+<span class="material-symbols-outlined text-[22px]">graphic_eq</span>
+<span class="text-[10px] mt-0.5 tracking-tight">DJ Vibe</span>
+</a>
+<a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] text-[#9c948e] hover:text-[#f3ede7] transition-colors font-medium" data-path="admin-host" href="#">
+<span class="material-symbols-outlined text-[22px]">tune</span>
+<span class="text-[10px] mt-0.5 tracking-tight">Host</span>
+</a>
+</div>
+<div class="flex justify-center pb-1">
+<div class="w-32 h-1 bg-white/20 rounded-full"></div>
+</div>
+</nav>
+<!-- Interactive Scripts -->
+<script>
+    function toggleTheme() {
+      const htmlEl = document.documentElement;
+      const isDark = htmlEl.classList.contains('dark');
+      const toggleLabel = document.getElementById('theme-toggle-label');
+      const toggleIcon = document.getElementById('theme-toggle-icon');
+
+      if (isDark) {
+        htmlEl.classList.remove('dark');
+        document.body.classList.remove('bg-[#121114]', 'text-[#f3ede7]');
+        document.body.classList.add('bg-[#fcfaf7]', 'text-[#201c18]');
+        toggleLabel.textContent = 'Light';
+        toggleIcon.textContent = 'light_mode';
+      } else {
+        htmlEl.classList.add('dark');
+        document.body.classList.remove('bg-[#fcfaf7]', 'text-[#201c18]');
+        document.body.classList.add('bg-[#121114]', 'text-[#f3ede7]');
+        toggleLabel.textContent = 'Dark';
+        toggleIcon.textContent = 'dark_mode';
+      }
+    }
+
+    function switchTab(index) {
+      const tabs = document.querySelectorAll('.tab-pill');
+      tabs.forEach((tab, i) => {
+        if (i === index) {
+          tab.className = 'tab-pill flex-1 min-w-[105px] py-2 px-3 rounded-full text-center text-xs bg-[#2b2733] border border-[#f2be8c]/30 text-[#f2be8c] font-semibold shadow-sm transition-all';
+        } else {
+          tab.className = 'tab-pill flex-1 min-w-[95px] py-2 px-3 rounded-full text-center text-xs font-medium text-[#9c948e] transition-all hover:text-[#f3ede7]';
+        }
+      });
+    }
+
+    function toggleReminder(button) {
+      const icon = button.querySelector('.material-symbols-outlined');
+      const label = button.querySelector('span:last-child');
+      if (label.innerText === 'Remind Me') {
+        label.innerText = 'Reminder Set';
+        icon.innerText = 'done';
+        button.classList.remove('bg-[#24222a]', 'text-[#f3ede7]');
+        button.classList.add('bg-emerald-950/70', 'border-emerald-500/30', 'text-emerald-300');
+      } else {
+        label.innerText = 'Remind Me';
+        icon.innerText = 'notifications_none';
+        button.classList.remove('bg-emerald-950/70', 'border-emerald-500/30', 'text-emerald-300');
+        button.classList.add('bg-[#24222a]', 'text-[#f3ede7]');
+      }
+    }
+
+    function triggerCalSync() {
+      const btnText = document.getElementById('cal-btn-text');
+      const btn = document.getElementById('cal-sync-btn');
+      btnText.innerText = 'Adding to Apple Calendar...';
+      setTimeout(() => {
+        btnText.innerText = 'All 5 Events Synced ✓';
+        btn.classList.remove('bg-[#d4a373]', 'text-[#2c1600]');
+        btn.classList.add('bg-emerald-600', 'text-white');
+      }, 750);
+    }
+  </script>
+</body></html>

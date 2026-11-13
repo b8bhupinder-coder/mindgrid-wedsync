@@ -1,0 +1,11 @@
+Guest Name,Table,Status,Entree Choice,Allergies / Dietary Restrictions
+"Julianna Vance",Table 4,Confirmed,"Beef Tenderloin","Gluten-Free"
+"Marcus Vance",Table 4,Confirmed,"Sea Bass","Nut Allergy"
+"Camille Dupont",Table 2,Confirmed,"Sea Bass","Shellfish"
+"Liam Sterling",Table 7,Confirmed,"Truffle Agnolotti","Vegetarian"
+"Elena Rostova",Table 1,Confirmed,"Beef Tenderloin","None"
+"Matteo Rossi",Table 3,Confirmed,"Sea Bass","None"
+"Chloe Laurent",Table 5,Confirmed,"Truffle Agnolotti","Vegan"
+"Alessandro Moretti",Table 2,Confirmed,"Beef Tenderloin","Dairy-Free"
+"David Kim",Table 6,Confirmed,"Beef Tenderloin","None"
+"Sofia Chen",Table 6,Confirmed,"Sea Bass","Nut Allergy"

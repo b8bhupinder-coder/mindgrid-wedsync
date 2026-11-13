@@ -1,0 +1,165 @@
+{
+  "isUnlocked": true,
+  "currentTab": "timeline",
+  "theme": "editorial",
+  "persona": "guest",
+  "deviceView": "iphone",
+  "rsvp": {
+    "attending": true,
+    "juliannaEntree": "beef",
+    "juliannaDietary": [
+      "Gluten-Free"
+    ],
+    "juliannaNote": "So excited to celebrate you both in beautiful Ravello!",
+    "marcusAttending": true,
+    "marcusEntree": "seabass",
+    "marcusDietary": [
+      "Nut Allergy"
+    ]
+  },
+  "rsvpLocked": false,
+  "dj": {
+    "requestsRemaining": 2,
+    "userVotedIds": [
+      "song-1",
+      "song-4"
+    ],
+    "filterCategory": "all",
+    "songs": [
+      {
+        "id": "song-1",
+        "title": "September",
+        "artist": "Earth, Wind & Fire",
+        "category": "Disco Classics",
+        "votes": 38,
+        "requestedBy": "Julianna Vance"
+      },
+      {
+        "id": "song-2",
+        "title": "Levitating",
+        "artist": "Dua Lipa",
+        "category": "Late Night Anthems",
+        "votes": 29,
+        "requestedBy": "Liam Sterling"
+      },
+      {
+        "id": "song-3",
+        "title": "L-O-V-E",
+        "artist": "Nat King Cole",
+        "category": "Slow Dances",
+        "votes": 24,
+        "requestedBy": "Camille Dupont"
+      },
+      {
+        "id": "song-4",
+        "title": "Dancing in the Moonlight",
+        "artist": "Toploader",
+        "category": "Disco Classics",
+        "votes": 19,
+        "requestedBy": "Elena Rostova"
+      },
+      {
+        "id": "song-5",
+        "title": "This Will Be (An Everlasting Love)",
+        "artist": "Natalie Cole",
+        "category": "Disco Classics",
+        "votes": 16,
+        "requestedBy": "Matteo Rossi"
+      },
+      {
+        "id": "song-6",
+        "title": "Gimme! Gimme! Gimme!",
+        "artist": "ABBA",
+        "category": "Late Night Anthems",
+        "votes": 15,
+        "requestedBy": "Chloe Laurent"
+      },
+      {
+        "id": "song-7",
+        "title": "Sar\u00e0 perch\u00e9 ti amo",
+        "artist": "Ricchi e Poveri",
+        "category": "Italian Classics",
+        "votes": 13,
+        "requestedBy": "Alessandro Moretti"
+      }
+    ]
+  },
+  "stats": {
+    "totalGuests": 142,
+    "dietaryAlerts": 19,
+    "calendarSyncPct": 88,
+    "djRequestsCount": 32
+  },
+  "guestRoster": [
+    {
+      "name": "Julianna Vance",
+      "table": 4,
+      "entree": "Beef Tenderloin",
+      "allergies": "Gluten-Free",
+      "status": "Confirmed"
+    },
+    {
+      "name": "Marcus Vance",
+      "table": 4,
+      "entree": "Sea Bass",
+      "allergies": "Nut Allergy",
+      "status": "Confirmed"
+    },
+    {
+      "name": "Camille Dupont",
+      "table": 2,
+      "entree": "Sea Bass",
+      "allergies": "Shellfish",
+      "status": "Confirmed"
+    },
+    {
+      "name": "Liam Sterling",
+      "table": 7,
+      "entree": "Truffle Agnolotti",
+      "allergies": "Vegetarian",
+      "status": "Confirmed"
+    },
+    {
+      "name": "Elena Rostova",
+      "table": 1,
+      "entree": "Beef Tenderloin",
+      "allergies": "None",
+      "status": "Confirmed"
+    },
+    {
+      "name": "Matteo Rossi",
+      "table": 3,
+      "entree": "Sea Bass",
+      "allergies": "None",
+      "status": "Confirmed"
+    },
+    {
+      "name": "Chloe Laurent",
+      "table": 5,
+      "entree": "Truffle Agnolotti",
+      "allergies": "Vegan",
+      "status": "Confirmed"
+    },
+    {
+      "name": "Alessandro Moretti",
+      "table": 2,
+      "entree": "Beef Tenderloin",
+      "allergies": "Dairy-Free",
+      "status": "Confirmed"
+    },
+    {
+      "name": "David Kim",
+      "table": 6,
+      "entree": "Beef Tenderloin",
+      "allergies": "None",
+      "status": "Confirmed"
+    },
+    {
+      "name": "Sofia Chen",
+      "table": 6,
+      "entree": "Sea Bass",
+      "allergies": "Nut Allergy",
+      "status": "Confirmed"
+    }
+  ]
+}

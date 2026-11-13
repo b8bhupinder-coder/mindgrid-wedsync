@@ -1,0 +1,10 @@
+# WedSync PRD Specification Document
+Product: WedSync (iOS-first Wedding Guest & Event Planning App)
+Primary Target: Mobile iOS (iPhone)
+Key MVP Screens:
+1. Welcome & Event Join / Onboarding (Magic Code / QR / Phone OTP)
+2. Home / Timeline Itinerary (Chronological events, offline badge, "Sync to Apple Calendar" CTA, countdown)
+3. Event Detail & Venue Map (Map routing, dress code, schedule specifics, transit/parking)
+4. Interactive RSVP & Menu Selection (Multi-step attendee meal selection & allergies)
+5. DJ Booth & Vibe (Crowdsourced song request board & upvoting with 3-song limit)
+6. Organizer Admin Dashboard (Real-time RSVP stats, dietary exports, push notification broadcast modal)
